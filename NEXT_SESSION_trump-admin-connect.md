@@ -28,9 +28,11 @@
 
 ## 남은 작업 (다음 세션):
 
+- [ ] **ConsultForm → 위자드 3단계 폼으로 교체**: index.html 와이어프레임에 위자드폼 CSS+JS 있음 (line 1323~). 현재 ConsultForm.tsx는 J&I 원본 단일폼. React 위자드 컴포넌트로 변환 필요
 - [ ] **Airtable 접수 저장 인코딩 문제 해결**: consult API에서 한글 필드명이 Airtable에 저장 안 됨. 유니코드 이스케이프(\uXXXX)로 시도했으나 500 에러. 원인: 린터가 유니코드를 다시 한글로 변환하거나, Airtable 필드명 불일치. → **영문 필드명으로 변경하는 것이 가장 확실**
 - [ ] **텔레그램 알림 테스트**: Airtable 저장 실패 때문에 catch에서 중단됨. Airtable 해결 후 재테스트
-- [ ] **GA4 연동**: 서비스 계정 trump-347@trump-biz.iam.gserviceaccount.com, 키파일 c:\Users\flame\Downloads\trump-biz-f8e3a3e2febf.json → analytics API route에 연결
+- [x] **GA4 태그 설치**: G-H9LZ9YK9DR (스트림ID: 14120140087, URL: trump1.co.kr)
+- [ ] **GA4 Data API 연동**: 속성ID 529311989, 서비스 계정 trump-347@trump-biz.iam.gserviceaccount.com, 키파일 c:\Users\flame\Downloads\trump-biz-f8e3a3e2febf.json → analytics 대시보드 페이지에 연결. GA4 속성에 서비스 계정 뷰어 권한 추가 필요
 - [ ] **관리자 대시보드 기능 테스트**: 각 페이지(leads/email/board/popups/analytics/employees) 실제 동작 확인
 - [ ] **모바일 자금상담 히어로 영상**: 일부만 보이는 문제 수정 필요
 - [ ] **텍스트 밸런스 점검**: /text-balance 전체 페이지
