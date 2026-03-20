@@ -222,17 +222,27 @@ export default function ConsultForm() {
         <div className="wz-body">
           {/* Left panel - PC only */}
           <div className="wz-left">
-            <div className="wz-left-img">
-              <img
-                src="/images/consultant-portrait.jpg"
-                alt="기업심사관 이소영"
-                loading="lazy"
-              />
-            </div>
-            <div className="wz-left-info">
-              <span className="wz-left-badge">기업심사관</span>
-              <h3>이소영 대표</h3>
-              <p>정부정책자금 전문 컨설턴트</p>
+            <img
+              className="wz-left-bg"
+              src="/images/consultant-portrait.jpg"
+              alt="기업심사관 이소영"
+              loading="lazy"
+            />
+            <div className="wz-left-overlay" />
+            <div className="wz-left-content">
+              <span className="wz-left-badge">심사 통과율 향상</span>
+              <h3>
+                체계적인 현황분석으로
+                <br />
+                최적의 정부정책자금을
+                <br />
+                확보하세요
+              </h3>
+              <p>
+                기업심사관 이소영이
+                <br />
+                직접 자금조달을 설계합니다
+              </p>
               <p className="wz-left-note">※ 기업대출알선 서비스가 아닙니다</p>
             </div>
           </div>
