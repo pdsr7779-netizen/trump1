@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const NAV_ITEMS = [
   {
@@ -146,6 +146,22 @@ export default function DashboardLayout({
 }) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "#f3f4f6",
+        }}
+      />
+    );
+  }
 
   const isActive = (href: string) => {
     if (href === "/dashboard") return pathname === "/dashboard";
@@ -161,244 +177,6 @@ export default function DashboardLayout({
 
   return (
     <>
-      <style jsx global>{`
-        :root {
-          --tp-primary: #1b2b4b;
-          --tp-primary-dark: #111d33;
-          --tp-primary-light: #e8eef6;
-          --tp-primary-hover: #243759;
-          --tp-gold: #c9a84c;
-          --tp-gold-dark: #8b6914;
-          --tp-gold-light: #e2c878;
-          --tp-accent: #c9a84c;
-          --tp-success: #10b981;
-          --tp-warning: #f59e0b;
-          --tp-error: #ef4444;
-          --n50: #f9fafb;
-          --n100: #f3f4f6;
-          --n200: #e5e7eb;
-          --n300: #d1d5db;
-          --n400: #9ca3af;
-          --n500: #6b7280;
-          --n600: #4b5563;
-          --n700: #374151;
-          --n800: #1f2937;
-          --n900: #111827;
-          --sidebar-w: 260px;
-        }
-        .db-container {
-          display: flex;
-          min-height: 100vh;
-          background: var(--n100);
-        }
-        .db-sidebar {
-          width: var(--sidebar-w);
-          background: linear-gradient(180deg, #111d33 0%, #1b2b4b 100%);
-          color: white;
-          display: flex;
-          flex-direction: column;
-          position: fixed;
-          top: 0;
-          left: 0;
-          height: 100vh;
-          z-index: 100;
-          transition: transform 0.3s ease;
-        }
-        .db-sidebar-header {
-          padding: 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .db-logo {
-          font-size: 20px;
-          font-weight: 700;
-          color: white;
-        }
-        .db-logo-gold {
-          color: var(--tp-gold);
-        }
-        .db-logo-sub {
-          font-size: 12px;
-          color: var(--n400);
-          margin-left: 8px;
-        }
-        .db-sidebar-nav {
-          flex: 1;
-          padding: 16px 12px;
-        }
-        .db-nav-item {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 12px 16px;
-          color: var(--n400);
-          text-decoration: none;
-          border-radius: 8px;
-          margin-bottom: 4px;
-          transition: all 0.2s ease;
-          font-size: 14px;
-          font-weight: 500;
-        }
-        .db-nav-item:hover {
-          background: rgba(255, 255, 255, 0.1);
-          color: white;
-        }
-        .db-nav-item.active {
-          background: rgba(201, 168, 76, 0.2);
-          color: white;
-          border-left: 3px solid var(--tp-gold);
-        }
-        .db-sidebar-footer {
-          padding: 16px 12px;
-          border-top: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .db-overlay {
-          display: none;
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.5);
-          z-index: 99;
-        }
-        .db-main {
-          flex: 1;
-          margin-left: var(--sidebar-w);
-          padding: 24px;
-        }
-        .db-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 24px;
-          padding-bottom: 24px;
-          border-bottom: 1px solid var(--n200);
-        }
-        .db-header-left {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        .db-page-title {
-          font-size: 24px;
-          font-weight: 700;
-          color: var(--n900);
-        }
-        .db-page-sub {
-          font-size: 14px;
-          color: var(--n500);
-          margin-top: 4px;
-        }
-        .db-header-right {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-        }
-        .db-user {
-          font-size: 14px;
-          color: var(--n600);
-        }
-        .db-btn-logout {
-          padding: 8px 16px;
-          background: var(--n200);
-          border: none;
-          border-radius: 8px;
-          font-size: 14px;
-          color: var(--n700);
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-        .db-btn-logout:hover {
-          background: var(--n300);
-        }
-        .db-mobile-menu {
-          display: none;
-          width: 40px;
-          height: 40px;
-          align-items: center;
-          justify-content: center;
-          background: none;
-          border: none;
-          color: var(--n700);
-          cursor: pointer;
-          border-radius: 8px;
-        }
-        .db-mobile-menu:hover {
-          background: var(--n100);
-        }
-        .db-bottom-nav {
-          display: none;
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          background: white;
-          border-top: 1px solid var(--n200);
-          box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
-          z-index: 1000;
-          padding-bottom: env(safe-area-inset-bottom, 0);
-        }
-        .db-bottom-list {
-          list-style: none;
-          display: flex;
-          justify-content: space-around;
-          margin: 0;
-          padding: 0;
-        }
-        .db-bottom-item {
-          flex: 1;
-        }
-        .db-bottom-link {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 4px;
-          padding: 10px 4px 8px;
-          color: var(--n400);
-          text-decoration: none;
-          transition: all 0.2s;
-          font-size: 10px;
-          font-weight: 500;
-        }
-        .db-bottom-link:hover,
-        .db-bottom-link.active {
-          color: var(--tp-primary);
-        }
-        .db-bottom-link.active {
-          font-weight: 600;
-        }
-        @media (max-width: 768px) {
-          .db-sidebar {
-            transform: translateX(-100%);
-          }
-          .db-sidebar.open {
-            transform: translateX(0);
-          }
-          .db-overlay.open {
-            display: block;
-          }
-          .db-main {
-            margin-left: 0;
-            padding: 16px;
-            padding-bottom: 80px;
-          }
-          .db-mobile-menu {
-            display: flex;
-          }
-          .db-bottom-nav {
-            display: block;
-          }
-          .db-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 16px;
-          }
-          .db-page-title {
-            font-size: 20px;
-          }
-        }
-      `}</style>
-
       <div className="db-container">
         <div
           className={`db-overlay ${sidebarOpen ? "open" : ""}`}

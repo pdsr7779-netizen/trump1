@@ -1,0 +1,9 @@
+jni-original/
+*.psd
+*.png
+*.jpg
+index.html
+form-side.png
+form-side-concept.png
+NEXT_SESSION_*.md
+CLAUDE.md

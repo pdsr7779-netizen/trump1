@@ -1,0 +1,863 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>트럼프 파트너스 이메일 템플릿 미리보기</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 40px 20px;
+        background: #e8e8e8;
+        font-family: -apple-system, "Helvetica Neue", sans-serif;
+      }
+      h1 {
+        text-align: center;
+        font-size: 18px;
+        color: #1b2b4b;
+        margin-bottom: 8px;
+      }
+      .subtitle {
+        text-align: center;
+        font-size: 13px;
+        color: #999;
+        margin-bottom: 32px;
+      }
+      .tab-bar {
+        max-width: 620px;
+        margin: 0 auto;
+        display: flex;
+        gap: 0;
+      }
+      .tab {
+        flex: 1;
+        padding: 12px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid #ddd;
+        border-bottom: none;
+        background: #f5f5f5;
+        color: #777;
+        border-radius: 8px 8px 0 0;
+      }
+      .tab.active {
+        background: white;
+        color: #1b2b4b;
+      }
+      .tab:hover:not(.active) {
+        background: #eee;
+      }
+      .email-frame {
+        max-width: 620px;
+        margin: 0 auto;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 0 0 12px 12px;
+        padding: 20px;
+        position: relative;
+        top: -1px;
+      }
+      .template {
+        display: none;
+      }
+      .template.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>TRUMP PARTNERS Email Templates</h1>
+    <p class="subtitle">bizup 스타일 + 트럼프 Navy/Gold 컬러 - 압축 레이아웃</p>
+
+    <div class="tab-bar">
+      <div class="tab active" id="tab-receipt" onclick="showTab('receipt')">
+        접수 확인
+      </div>
+      <div class="tab" id="tab-progress" onclick="showTab('progress')">
+        진행 안내
+      </div>
+      <div class="tab" id="tab-approval" onclick="showTab('approval')">
+        승인 축하
+      </div>
+      <div class="tab" id="tab-custom" onclick="showTab('custom')">
+        직접 작성
+      </div>
+    </div>
+
+    <div class="email-frame">
+      <!-- 접수 확인 -->
+      <div class="template active" id="tmpl-receipt">
+        <div
+          style="
+            font-family: -apple-system, &quot;Helvetica Neue&quot;, sans-serif;
+            max-width: 580px;
+            margin: 0 auto;
+            background: #fff;
+          "
+        >
+          <div style="background: #111d33; padding: 14px 20px">
+            <p
+              style="
+                margin: 0;
+                color: #c9a84c;
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: 3px;
+              "
+            >
+              TRUMP PARTNERS
+            </p>
+            <p
+              style="
+                margin: 2px 0 0;
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 9px;
+                letter-spacing: 2px;
+              "
+            >
+              정부정책자금 경영컨설팅
+            </p>
+          </div>
+          <div
+            style="
+              background: #f7f0de;
+              border-left: 3px solid #c9a84c;
+              padding: 7px 20px;
+              font-size: 11px;
+              color: #1b2b4b;
+              font-weight: 600;
+            "
+          >
+            무료 상담 신청이 접수되었습니다
+          </div>
+          <div style="padding: 14px 20px 10px">
+            <div
+              style="
+                background: #f9fafb;
+                padding: 12px;
+                border-left: 3px solid #c9a84c;
+                border-radius: 0 6px 6px 0;
+              "
+            >
+              <p
+                style="
+                  margin: 0;
+                  color: #404040;
+                  line-height: 1.6;
+                  font-size: 13px;
+                "
+              >
+                안녕하세요, <strong>임혜진</strong>님! 정책자금 상담신청이
+                정상적으로 접수되었습니다. 영업일기준 24시간 이내 담당
+                기업심사관이 연락드리겠습니다.
+              </p>
+            </div>
+          </div>
+          <div style="padding: 0 20px 10px">
+            <p
+              style="
+                margin: 0 0 6px;
+                font-size: 9px;
+                font-weight: 600;
+                letter-spacing: 2px;
+                color: #999;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #f0f0f0;
+              "
+            >
+              신청 정보
+            </p>
+            <table style="width: 100%; border-collapse: collapse">
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td
+                  style="
+                    padding: 5px 0;
+                    font-size: 11px;
+                    color: #999;
+                    width: 28%;
+                  "
+                >
+                  기업명
+                </td>
+                <td
+                  style="
+                    padding: 5px 0;
+                    font-size: 13px;
+                    color: #1b2b4b;
+                    font-weight: 600;
+                  "
+                >
+                  폴라테크
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td style="padding: 5px 0; font-size: 11px; color: #999">
+                  연락처
+                </td>
+                <td style="padding: 5px 0; font-size: 13px; color: #1a1a1a">
+                  010-6624-6615
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td style="padding: 5px 0; font-size: 11px; color: #999">
+                  희망자금
+                </td>
+                <td style="padding: 5px 0; font-size: 13px; color: #1a1a1a">
+                  1억원 ~ 3억원
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td style="padding: 5px 0; font-size: 11px; color: #999">
+                  자금종류
+                </td>
+                <td style="padding: 5px 0; font-size: 13px; color: #1a1a1a">
+                  운전자금
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td style="padding: 5px 0; font-size: 11px; color: #999">
+                  연락시간
+                </td>
+                <td style="padding: 5px 0; font-size: 13px; color: #1a1a1a">
+                  오전 10:00 - 11:00
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div
+            style="
+              padding: 10px 20px;
+              background: #f7f0de;
+              border-top: 1px solid rgba(201, 168, 76, 0.15);
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                color: #1b2b4b;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 1.5;
+                text-align: center;
+              "
+            >
+              영업일기준 <strong>24시간 이내</strong> 트럼프 파트너스에서
+              연락드리겠습니다.
+            </p>
+          </div>
+          <div
+            style="
+              padding: 8px 20px;
+              background: #fafafa;
+              border-top: 1px solid #f0f0f0;
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                font-size: 11px;
+                color: #555;
+                text-align: center;
+              "
+            >
+              문의: <strong style="color: #1b2b4b">트럼프 파트너스</strong> |
+              대표전화: <strong>1844-1053</strong>
+            </p>
+          </div>
+          <div style="padding: 8px 20px; background: #111d33">
+            <p
+              style="
+                margin: 0;
+                font-size: 9px;
+                color: rgba(255, 255, 255, 0.35);
+                text-align: center;
+              "
+            >
+              트럼프 파트너스 | trump1.co.kr | 이 메일에 회신하시면 담당자에게
+              전달됩니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 진행 안내 -->
+      <div class="template" id="tmpl-progress">
+        <div
+          style="
+            font-family: -apple-system, &quot;Helvetica Neue&quot;, sans-serif;
+            max-width: 580px;
+            margin: 0 auto;
+            background: #fff;
+          "
+        >
+          <div style="background: #111d33; padding: 14px 20px">
+            <p
+              style="
+                margin: 0;
+                color: #c9a84c;
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: 3px;
+              "
+            >
+              TRUMP PARTNERS
+            </p>
+            <p
+              style="
+                margin: 2px 0 0;
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 9px;
+                letter-spacing: 2px;
+              "
+            >
+              정부정책자금 경영컨설팅
+            </p>
+          </div>
+          <div
+            style="
+              background: #f7f0de;
+              border-left: 3px solid #c9a84c;
+              padding: 7px 20px;
+              font-size: 11px;
+              color: #1b2b4b;
+              font-weight: 600;
+            "
+          >
+            정책자금 심사 진행안내
+          </div>
+          <div style="padding: 14px 20px 10px">
+            <div
+              style="
+                background: #f9fafb;
+                padding: 12px;
+                border-left: 3px solid #c9a84c;
+                border-radius: 0 6px 6px 0;
+              "
+            >
+              <p
+                style="
+                  margin: 0;
+                  color: #404040;
+                  line-height: 1.6;
+                  font-size: 13px;
+                "
+              >
+                안녕하세요, <strong>임혜진</strong>님! 신청하신 정책자금 심사가
+                현재 <strong>진행 중</strong>입니다. 담당 기업심사관이 검토 후
+                결과를 안내드리겠습니다.
+              </p>
+            </div>
+          </div>
+          <div style="padding: 0 20px 10px">
+            <p
+              style="
+                margin: 0 0 6px;
+                font-size: 9px;
+                font-weight: 600;
+                letter-spacing: 2px;
+                color: #999;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #f0f0f0;
+              "
+            >
+              신청 정보
+            </p>
+            <table style="width: 100%; border-collapse: collapse">
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td
+                  style="
+                    padding: 5px 0;
+                    font-size: 11px;
+                    color: #999;
+                    width: 28%;
+                  "
+                >
+                  기업명
+                </td>
+                <td
+                  style="
+                    padding: 5px 0;
+                    font-size: 13px;
+                    color: #1b2b4b;
+                    font-weight: 600;
+                  "
+                >
+                  폴라테크
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td style="padding: 5px 0; font-size: 11px; color: #999">
+                  연락처
+                </td>
+                <td style="padding: 5px 0; font-size: 13px; color: #1a1a1a">
+                  010-6624-6615
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td style="padding: 5px 0; font-size: 11px; color: #999">
+                  희망자금
+                </td>
+                <td style="padding: 5px 0; font-size: 13px; color: #1a1a1a">
+                  1억원 ~ 3억원
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td style="padding: 5px 0; font-size: 11px; color: #999">
+                  마감일
+                </td>
+                <td style="padding: 5px 0; font-size: 13px; color: #1a1a1a">
+                  2026-04-15
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div
+            style="
+              background: #f7f0de;
+              padding: 10px 20px;
+              margin: 0 20px 8px;
+              border-left: 3px solid #c9a84c;
+              border-radius: 4px;
+            "
+          >
+            <p
+              style="
+                font-size: 12px;
+                color: #404040;
+                line-height: 1.6;
+                margin: 0;
+              "
+            >
+              추가 서류 필요 시 별도 안내드리겠습니다. 심사가 순조롭게 진행
+              중입니다.
+            </p>
+          </div>
+          <div
+            style="
+              padding: 10px 20px;
+              background: #f7f0de;
+              border-top: 1px solid rgba(201, 168, 76, 0.15);
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                color: #1b2b4b;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 1.5;
+                text-align: center;
+              "
+            >
+              심사 진행 중 추가 서류 필요 시
+              <strong>담당자가 별도 안내</strong>드리겠습니다.
+            </p>
+          </div>
+          <div
+            style="
+              padding: 8px 20px;
+              background: #fafafa;
+              border-top: 1px solid #f0f0f0;
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                font-size: 11px;
+                color: #555;
+                text-align: center;
+              "
+            >
+              문의: <strong style="color: #1b2b4b">이소영 기업심사관</strong> |
+              대표전화: <strong>1844-1053</strong>
+            </p>
+          </div>
+          <div style="padding: 8px 20px; background: #111d33">
+            <p
+              style="
+                margin: 0;
+                font-size: 9px;
+                color: rgba(255, 255, 255, 0.35);
+                text-align: center;
+              "
+            >
+              트럼프 파트너스 | trump1.co.kr | 이 메일에 회신하시면 담당자에게
+              전달됩니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 승인 축하 -->
+      <div class="template" id="tmpl-approval">
+        <div
+          style="
+            font-family: -apple-system, &quot;Helvetica Neue&quot;, sans-serif;
+            max-width: 580px;
+            margin: 0 auto;
+            background: #fff;
+          "
+        >
+          <div style="background: #111d33; padding: 14px 20px">
+            <p
+              style="
+                margin: 0;
+                color: #c9a84c;
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: 3px;
+              "
+            >
+              TRUMP PARTNERS
+            </p>
+            <p
+              style="
+                margin: 2px 0 0;
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 9px;
+                letter-spacing: 2px;
+              "
+            >
+              정부정책자금 경영컨설팅
+            </p>
+          </div>
+          <div
+            style="
+              background: #f7f0de;
+              border-left: 3px solid #c9a84c;
+              padding: 7px 20px;
+              font-size: 11px;
+              color: #1b2b4b;
+              font-weight: 600;
+            "
+          >
+            정책자금 승인을 축하합니다!
+          </div>
+          <div style="padding: 14px 20px 10px">
+            <div
+              style="
+                background: #f9fafb;
+                padding: 12px;
+                border-left: 3px solid #c9a84c;
+                border-radius: 0 6px 6px 0;
+              "
+            >
+              <p
+                style="
+                  margin: 0;
+                  color: #404040;
+                  line-height: 1.6;
+                  font-size: 13px;
+                "
+              >
+                안녕하세요, <strong>임혜진</strong>님! 축하합니다! 신청하신
+                정책자금이
+                <strong style="color: #059669">승인</strong>되었습니다. 아래
+                내용을 확인하시고 담당자에게 연락주시기 바랍니다.
+              </p>
+            </div>
+          </div>
+          <div style="padding: 0 20px 10px">
+            <p
+              style="
+                margin: 0 0 6px;
+                font-size: 9px;
+                font-weight: 600;
+                letter-spacing: 2px;
+                color: #999;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #f0f0f0;
+              "
+            >
+              신청 정보
+            </p>
+            <table style="width: 100%; border-collapse: collapse">
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td
+                  style="
+                    padding: 5px 0;
+                    font-size: 11px;
+                    color: #999;
+                    width: 28%;
+                  "
+                >
+                  기업명
+                </td>
+                <td
+                  style="
+                    padding: 5px 0;
+                    font-size: 13px;
+                    color: #1b2b4b;
+                    font-weight: 600;
+                  "
+                >
+                  폴라테크
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td style="padding: 5px 0; font-size: 11px; color: #999">
+                  연락처
+                </td>
+                <td style="padding: 5px 0; font-size: 13px; color: #1a1a1a">
+                  010-6624-6615
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td style="padding: 5px 0; font-size: 11px; color: #999">
+                  희망자금
+                </td>
+                <td style="padding: 5px 0; font-size: 13px; color: #1a1a1a">
+                  1억원 ~ 3억원
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div
+            style="
+              padding: 10px 20px;
+              background: #f7f0de;
+              border-top: 1px solid rgba(201, 168, 76, 0.15);
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                color: #1b2b4b;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 1.5;
+                text-align: center;
+              "
+            >
+              <strong>축하합니다!</strong> 자세한 내용은 담당자에게
+              문의해주세요.
+            </p>
+          </div>
+          <div
+            style="
+              padding: 8px 20px;
+              background: #fafafa;
+              border-top: 1px solid #f0f0f0;
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                font-size: 11px;
+                color: #555;
+                text-align: center;
+              "
+            >
+              문의: <strong style="color: #1b2b4b">이소영 기업심사관</strong> |
+              대표전화: <strong>1844-1053</strong>
+            </p>
+          </div>
+          <div style="padding: 8px 20px; background: #111d33">
+            <p
+              style="
+                margin: 0;
+                font-size: 9px;
+                color: rgba(255, 255, 255, 0.35);
+                text-align: center;
+              "
+            >
+              트럼프 파트너스 | trump1.co.kr | 이 메일에 회신하시면 담당자에게
+              전달됩니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 직접 작성 -->
+      <div class="template" id="tmpl-custom">
+        <div
+          style="
+            font-family: -apple-system, &quot;Helvetica Neue&quot;, sans-serif;
+            max-width: 580px;
+            margin: 0 auto;
+            background: #fff;
+          "
+        >
+          <div style="background: #111d33; padding: 14px 20px">
+            <p
+              style="
+                margin: 0;
+                color: #c9a84c;
+                font-size: 13px;
+                font-weight: 700;
+                letter-spacing: 3px;
+              "
+            >
+              TRUMP PARTNERS
+            </p>
+            <p
+              style="
+                margin: 2px 0 0;
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 9px;
+                letter-spacing: 2px;
+              "
+            >
+              정부정책자금 경영컨설팅
+            </p>
+          </div>
+          <div
+            style="
+              background: #f7f0de;
+              border-left: 3px solid #c9a84c;
+              padding: 7px 20px;
+              font-size: 11px;
+              color: #1b2b4b;
+              font-weight: 600;
+            "
+          >
+            트럼프 파트너스 안내
+          </div>
+          <div style="padding: 14px 20px 10px">
+            <div
+              style="
+                background: #f9fafb;
+                padding: 12px;
+                border-left: 3px solid #c9a84c;
+                border-radius: 0 6px 6px 0;
+              "
+            >
+              <p
+                style="
+                  margin: 0;
+                  color: #404040;
+                  line-height: 1.6;
+                  font-size: 13px;
+                "
+              >
+                안녕하세요, <strong>임혜진</strong>님!
+              </p>
+            </div>
+          </div>
+          <div style="padding: 0 20px 10px">
+            <p
+              style="
+                margin: 0 0 6px;
+                font-size: 9px;
+                font-weight: 600;
+                letter-spacing: 2px;
+                color: #999;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #f0f0f0;
+              "
+            >
+              신청 정보
+            </p>
+            <table style="width: 100%; border-collapse: collapse">
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td
+                  style="
+                    padding: 5px 0;
+                    font-size: 11px;
+                    color: #999;
+                    width: 28%;
+                  "
+                >
+                  기업명
+                </td>
+                <td
+                  style="
+                    padding: 5px 0;
+                    font-size: 13px;
+                    color: #1b2b4b;
+                    font-weight: 600;
+                  "
+                >
+                  폴라테크
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td style="padding: 5px 0; font-size: 11px; color: #999">
+                  연락처
+                </td>
+                <td style="padding: 5px 0; font-size: 13px; color: #1a1a1a">
+                  010-6624-6615
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid #f5f5f5">
+                <td style="padding: 5px 0; font-size: 11px; color: #999">
+                  희망자금
+                </td>
+                <td style="padding: 5px 0; font-size: 13px; color: #1a1a1a">
+                  1억원 ~ 3억원
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div
+            style="
+              padding: 10px 20px;
+              background: #f7f0de;
+              border-top: 1px solid rgba(201, 168, 76, 0.15);
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                color: #1b2b4b;
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 1.5;
+                text-align: center;
+              "
+            >
+              궁금하신 사항은 언제든 연락주세요.
+            </p>
+          </div>
+          <div
+            style="
+              padding: 8px 20px;
+              background: #fafafa;
+              border-top: 1px solid #f0f0f0;
+            "
+          >
+            <p
+              style="
+                margin: 0;
+                font-size: 11px;
+                color: #555;
+                text-align: center;
+              "
+            >
+              문의: <strong style="color: #1b2b4b">트럼프 파트너스</strong> |
+              대표전화: <strong>1844-1053</strong>
+            </p>
+          </div>
+          <div style="padding: 8px 20px; background: #111d33">
+            <p
+              style="
+                margin: 0;
+                font-size: 9px;
+                color: rgba(255, 255, 255, 0.35);
+                text-align: center;
+              "
+            >
+              트럼프 파트너스 | trump1.co.kr | 이 메일에 회신하시면 담당자에게
+              전달됩니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function showTab(name) {
+        document.querySelectorAll(".tab").forEach(function (t) {
+          t.classList.remove("active");
+        });
+        document.querySelectorAll(".template").forEach(function (t) {
+          t.classList.remove("active");
+        });
+        document.getElementById("tab-" + name).classList.add("active");
+        document.getElementById("tmpl-" + name).classList.add("active");
+      }
+    </script>
+  </body>
+</html>

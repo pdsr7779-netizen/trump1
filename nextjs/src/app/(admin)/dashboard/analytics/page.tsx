@@ -34,14 +34,15 @@ export default function AnalyticsPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
-        const data = await res.json();
+        const json = await res.json();
+        const d = json.data || json;
         setStats({
-          visitors: data.totalVisitors?.toLocaleString() || "-",
-          pageviews: data.totalPageviews?.toLocaleString() || "-",
-          avgTime: data.avgDuration ? `${Math.round(data.avgDuration)}초` : "-",
-          bounceRate: data.bounceRate ? `${data.bounceRate}%` : "-",
+          visitors: d.visitors?.toLocaleString() || "-",
+          pageviews: d.pageviews?.toLocaleString() || "-",
+          avgTime: d.avgDuration ? `${Math.round(d.avgDuration)}초` : "-",
+          bounceRate: d.bounceRate ? `${d.bounceRate}%` : "-",
         });
-        setPages(data.pages || []);
+        setPages(d.topPages || []);
       }
     } catch (err) {
       console.error(err);
@@ -274,7 +275,7 @@ export default function AnalyticsPage() {
                 <li key={i} className="page-item">
                   <span className="page-rank">{i + 1}</span>
                   <div className="page-info">
-                    <span className="page-name">{p.page}</span>
+                    <span className="page-name">{p.path || p.page}</span>
                     <div className="page-bar">
                       <div
                         className="page-bar-fill"
@@ -291,10 +292,6 @@ export default function AnalyticsPage() {
           </ul>
         )}
       </section>
-
-      <div className="notice">
-        차트 시각화는 Chart.js 또는 Recharts 연동 후 추가됩니다.
-      </div>
     </>
   );
 }

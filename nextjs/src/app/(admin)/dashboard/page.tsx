@@ -48,12 +48,9 @@ export default function DashboardPage() {
         const leads = data.leads || [];
         const total = leads.length;
         const pending = leads.filter(
-          (l: any) =>
-            !l.fldStatus || l.fldStatus === "신규" || l.fldStatus === "대기중",
+          (l: any) => !l.status || l.status === "신규" || l.status === "대기",
         ).length;
-        const completed = leads.filter(
-          (l: any) => l.fldStatus === "완료",
-        ).length;
+        const completed = leads.filter((l: any) => l.status === "완료").length;
         setStats({
           total: String(total),
           pending: String(pending),
@@ -61,6 +58,14 @@ export default function DashboardPage() {
           posts: "-",
         });
         setRecentLeads(leads.slice(0, 5));
+      }
+
+      // 게시글 수 로드
+      const boardRes = await fetch(`${API_BASE}/api/board`, { headers });
+      if (boardRes.ok) {
+        const boardData = await boardRes.json();
+        const posts = boardData.posts || [];
+        setStats((prev) => ({ ...prev, posts: String(posts.length) }));
       }
     } catch (err) {
       console.error("Dashboard load error:", err);
@@ -360,17 +365,13 @@ export default function DashboardPage() {
                 </tr>
               ) : (
                 recentLeads.map((lead: any, i: number) => {
-                  const company =
-                    lead.fld76EQt8pI5wZT2f || lead["기업명"] || "-";
-                  const name =
-                    lead.fldHwYTsWree2KGQe || lead["대표자명"] || "-";
-                  const phone = lead.fldz2CTRYIERdRTgh || lead["연락처"] || "-";
-                  const amount =
-                    lead.fldxUOfkeU8tLP9m4 || lead["희망자금"] || "-";
-                  const dateRaw =
-                    lead.fld9EGNbrLeCpefTx || lead["접수일시"] || "";
+                  const company = lead.company || "-";
+                  const name = lead.name || "-";
+                  const phone = lead.phone || "-";
+                  const amount = lead.amount || "-";
+                  const dateRaw = lead.createdAt || "";
                   const date = dateRaw ? dateRaw.split("T")[0] : "-";
-                  const status = lead.fldStatus || "신규";
+                  const status = lead.status || "신규";
                   return (
                     <tr key={i}>
                       <td>{date}</td>

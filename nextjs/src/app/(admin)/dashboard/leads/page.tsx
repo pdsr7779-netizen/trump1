@@ -28,6 +28,17 @@ function getAuthToken() {
     : null;
 }
 
+function getStatusClass(status: string) {
+  const map: Record<string, string> = {
+    신규: "pending",
+    상담중: "progress",
+    진행중: "progress",
+    완료: "complete",
+    블랙리스트: "cancel",
+  };
+  return map[status] || "pending";
+}
+
 export default function LeadsPage() {
   const [allLeads, setAllLeads] = useState<Lead[]>([]);
   const [filtered, setFiltered] = useState<Lead[]>([]);
@@ -64,23 +75,23 @@ export default function LeadsPage() {
         if (!res.ok) throw new Error("API 오류");
         const data = await res.json();
         const leads = (data.leads || []).map((raw: any) => {
-          const dateRaw = raw.fld9EGNbrLeCpefTx || raw.CreatedAt || "";
+          const dateRaw = raw.createdAt || "";
           return {
             id: raw.id,
             date: dateRaw ? dateRaw.split("T")[0] : "-",
             dateRaw,
-            company: raw.fld76EQt8pI5wZT2f || raw.Company || "-",
-            name: raw.fldHwYTsWree2KGQe || raw.CEO || "-",
-            phone: raw.fldz2CTRYIERdRTgh || raw.Phone || "-",
-            email: raw.fldi1pKqTFx1DwVQs || raw.Email || "",
-            business: raw.fldIIQPwWwd89640a || raw.Industry || "-",
-            region: "-",
-            amount: raw.fldxUOfkeU8tLP9m4 || raw.FundAmount || "-",
-            fundType: raw.fldtSYYIXPTlSJcDT || raw.FundType || "-",
-            callTime: raw.fldZYFyw2g0JBmXns || raw.AvailableTime || "",
-            content: raw.fldKkUCKTNsUg7FCF || raw.Message || "",
-            status: "pending",
-            memo: "",
+            company: raw.company || "-",
+            name: raw.name || "-",
+            phone: raw.phone || "-",
+            email: raw.email || "",
+            business: raw.industry || "-",
+            region: raw.region || "-",
+            amount: raw.amount || "-",
+            fundType: raw.fundType || "-",
+            callTime: raw.consultTime || "",
+            content: raw.message || "",
+            status: raw.status || "신규",
+            memo: raw.memo || "",
           } as Lead;
         });
         all.push(...leads);
@@ -511,10 +522,10 @@ export default function LeadsPage() {
               onChange={(e) => setStatusFilter(e.target.value)}
             >
               <option value="">전체 상태</option>
-              <option value="pending">대기중</option>
-              <option value="progress">상담중</option>
-              <option value="complete">완료</option>
-              <option value="cancel">취소</option>
+              <option value="신규">신규</option>
+              <option value="상담중">상담중</option>
+              <option value="진행중">진행중</option>
+              <option value="완료">완료</option>
             </select>
             <select
               className="filter-select"
@@ -603,21 +614,32 @@ export default function LeadsPage() {
                     <td>{lead.amount}</td>
                     <td>
                       <select
-                        className={`status-select ${lead.status}`}
+                        className={`status-select ${getStatusClass(lead.status)}`}
                         value={lead.status}
-                        onChange={(e) => {
+                        onChange={async (e) => {
                           const s = e.target.value;
                           setAllLeads((prev) =>
                             prev.map((l) =>
                               l.id === lead.id ? { ...l, status: s } : l,
                             ),
                           );
+                          try {
+                            await fetch(`${API_BASE}/api/leads`, {
+                              method: "PATCH",
+                              headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${getAuthToken()}`,
+                              },
+                              body: JSON.stringify({ id: lead.id, status: s }),
+                            });
+                          } catch {}
                         }}
                       >
-                        <option value="pending">대기중</option>
-                        <option value="progress">상담중</option>
-                        <option value="complete">완료</option>
-                        <option value="cancel">취소</option>
+                        <option value="신규">신규</option>
+                        <option value="상담중">상담중</option>
+                        <option value="진행중">진행중</option>
+                        <option value="완료">완료</option>
+                        <option value="블랙리스트">블랙리스트</option>
                       </select>
                     </td>
                     <td>
