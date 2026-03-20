@@ -29,7 +29,12 @@
 ## 남은 작업 (다음 세션):
 
 - [ ] **ConsultForm → 위자드 3단계 폼으로 교체**: index.html 와이어프레임에 위자드폼 CSS+JS 있음 (line 1323~). 현재 ConsultForm.tsx는 J&I 원본 단일폼. React 위자드 컴포넌트로 변환 필요
-- [ ] **Airtable 접수 저장 인코딩 문제 해결**: consult API에서 한글 필드명이 Airtable에 저장 안 됨. 유니코드 이스케이프(\uXXXX)로 시도했으나 500 에러. 원인: 린터가 유니코드를 다시 한글로 변환하거나, Airtable 필드명 불일치. → **영문 필드명으로 변경하는 것이 가장 확실**
+- [x] **Airtable 필드 영문화 완료**: company, bizno, repName, phone, email, industry, founded, consultTime, amount, fundType, message, createdAt, status, memo. consult API 매핑도 수정됨
+- [ ] **관리자 대시보드 전체 FOUC 수정**: 로그인은 수정됨. 대시보드 각 페이지에도 로딩 스피너/애니메이션 필요. CSS 깨진 스타일 노출 방지
+- [ ] **이메일 발송 미리보기 기능 없음**: 발송 전 미리보기 추가 필요
+- [ ] **팝업 관리 이상**: 확인 필요
+- [ ] **관리자 대시보드 전반 이상**: F:\pola_homepage\30.26_2th_hwangilcheon_businesscoaching 참고 가능
+- [ ] **leads/board/popups API**: Airtable 영문 필드명으로 매핑 변경 필요 (consult만 수정됨): consult API에서 한글 필드명이 Airtable에 저장 안 됨. 유니코드 이스케이프(\uXXXX)로 시도했으나 500 에러. 원인: 린터가 유니코드를 다시 한글로 변환하거나, Airtable 필드명 불일치. → **영문 필드명으로 변경하는 것이 가장 확실**
 - [ ] **텔레그램 알림 테스트**: Airtable 저장 실패 때문에 catch에서 중단됨. Airtable 해결 후 재테스트
 - [x] **GA4 태그 설치**: G-H9LZ9YK9DR (스트림ID: 14120140087, URL: trump1.co.kr)
 - [ ] **GA4 Data API 연동**: 속성ID 529311989, 서비스 계정 trump-347@trump-biz.iam.gserviceaccount.com, 키파일 c:\Users\flame\Downloads\trump-biz-f8e3a3e2febf.json → analytics 대시보드 페이지에 연결. GA4 속성에 서비스 계정 뷰어 권한 추가 필요
