@@ -30,7 +30,6 @@
 
 - [ ] **ConsultForm → 위자드 3단계 폼으로 교체**: index.html 와이어프레임에 위자드폼 CSS+JS 있음 (line 1323~). 현재 ConsultForm.tsx는 J&I 원본 단일폼. React 위자드 컴포넌트로 변환 필요
 - [x] **Airtable 필드 영문화 완료**: company, bizno, repName, phone, email, industry, founded, consultTime, amount, fundType, message, createdAt, status, memo. consult API 매핑도 수정됨
-- [ ] **관리자 대시보드 전체 FOUC 수정**: 로그인은 수정됨. 대시보드 각 페이지에도 로딩 스피너/애니메이션 필요. CSS 깨진 스타일 노출 방지
 - [ ] **이메일 발송 미리보기 기능 없음**: 발송 전 미리보기 추가 필요
 - [ ] **팝업 관리 이상**: 확인 필요
 - [ ] **관리자 대시보드 재구축**: 기존 admin 삭제 후 F:\pola_homepage\31.26_2th_seongjuseok_bizup 관리자 구조 가져와서 트럼프 정보로 업데이트. 이 프로젝트가 가장 최신 관리자 구조임
