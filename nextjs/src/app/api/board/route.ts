@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { revalidateTag } from 'next/cache'
 import { deleteR2Image } from '@/lib/r2'
 
-const AIRTABLE_TOKEN = process.env.AIRTABLE_TOKEN
-const AIRTABLE_BASE_ID = 'appxU3n3KqoUr3l9e'
+const AIRTABLE_API_KEY = process.env.AIRTABLE_API_KEY
+const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID!
 const BOARD_TABLE_ID = 'tbl70mSCu4sicfZa5'
 
 // 필드 ID 매핑 (Airtable 인코딩 이슈 방지)
@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
     if (id) {
       const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${BOARD_TABLE_ID}/${id}?returnFieldsByFieldId=true`
       const response = await fetch(url, {
-        headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` },
+        headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` },
         next: { tags: ['board'], revalidate: 10 },
       })
       if (!response.ok) {
@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
     const params = new URLSearchParams({ maxRecords: '100', returnFieldsByFieldId: 'true' })
     const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${BOARD_TABLE_ID}?${params}`
     const response = await fetch(url, {
-      headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` },
+      headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` },
       next: { tags: ['board'], revalidate: 10 },
     })
     if (!response.ok) throw new Error(`Airtable Error: ${response.status}`)
@@ -149,7 +149,7 @@ export async function POST(request: NextRequest) {
     const response = await fetch(url, {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ fields }),
@@ -184,7 +184,7 @@ export async function PUT(request: NextRequest) {
       try {
         const oldUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${BOARD_TABLE_ID}/${id}?returnFieldsByFieldId=true`
         const oldRes = await fetch(oldUrl, {
-          headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` },
+          headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` },
         })
         if (oldRes.ok) {
           const oldRecord = await oldRes.json()
@@ -194,7 +194,7 @@ export async function PUT(request: NextRequest) {
           }
         }
       } catch (e) {
-        console.error('[JNI] Failed to cleanup old thumbnail:', e)
+        console.error('[Trump] Failed to cleanup old thumbnail:', e)
       }
     }
 
@@ -218,7 +218,7 @@ export async function PUT(request: NextRequest) {
     const response = await fetch(url, {
       method: 'PATCH',
       headers: {
-        Authorization: `Bearer ${AIRTABLE_TOKEN}`,
+        Authorization: `Bearer ${AIRTABLE_API_KEY}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ fields }),
@@ -252,7 +252,7 @@ export async function DELETE(request: NextRequest) {
     try {
       const getUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${BOARD_TABLE_ID}/${id}?returnFieldsByFieldId=true`
       const getRes = await fetch(getUrl, {
-        headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` },
+        headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` },
       })
       if (getRes.ok) {
         const record = await getRes.json()
@@ -262,13 +262,13 @@ export async function DELETE(request: NextRequest) {
         }
       }
     } catch (e) {
-      console.error('[JNI] Failed to cleanup thumbnail on delete:', e)
+      console.error('[Trump] Failed to cleanup thumbnail on delete:', e)
     }
 
     const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${BOARD_TABLE_ID}/${id}`
     const response = await fetch(url, {
       method: 'DELETE',
-      headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` },
+      headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` },
     })
 
     if (!response.ok) throw new Error(`Airtable Error: ${response.status}`)

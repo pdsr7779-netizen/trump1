@@ -315,7 +315,7 @@ export async function GET(request: NextRequest) {
       },
     })
   } catch (error) {
-    console.error('[JNI] GA4 Analytics API error:', error)
+    console.error('[Trump] GA4 Analytics API error:', error)
     return NextResponse.json(
       { success: false, error: (error as Error).message },
       { status: 500 }

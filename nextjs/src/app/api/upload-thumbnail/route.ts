@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, url })
   } catch (error) {
-    console.error('[JNI] Upload thumbnail error:', error)
+    console.error('[Trump] Upload thumbnail error:', error)
     return NextResponse.json(
       { success: false, error: (error as Error).message },
       { status: 500 }
@@ -88,7 +88,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('[JNI] Delete thumbnail error:', error)
+    console.error('[Trump] Delete thumbnail error:', error)
     return NextResponse.json(
       { success: false, error: (error as Error).message },
       { status: 500 }

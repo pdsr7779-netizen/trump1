@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import Airtable, { FieldSet } from 'airtable'
 import { deleteR2Image } from '@/lib/r2'
 
-const AIRTABLE_BASE_ID = 'appxU3n3KqoUr3l9e'
+const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID!
 const POPUPS_TABLE_ID = 'tblR8MQ99w26nBHJN'
 
 function getBase() {
-  const token = process.env.AIRTABLE_TOKEN
-  if (!token) throw new Error('AIRTABLE_TOKEN not configured')
+  const token = process.env.AIRTABLE_API_KEY
+  if (!token) throw new Error('AIRTABLE_API_KEY not configured')
   return new Airtable({ apiKey: token }).base(AIRTABLE_BASE_ID)
 }
 
@@ -68,7 +68,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ success: true, popups: records })
   } catch (error) {
-    console.error('[JNI] Popups GET error:', error)
+    console.error('[Trump] Popups GET error:', error)
     return NextResponse.json(
       { success: false, error: (error as Error).message },
       { status: 500 }
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, id: record.id })
   } catch (error) {
-    console.error('[JNI] Popups POST error:', error)
+    console.error('[Trump] Popups POST error:', error)
     return NextResponse.json(
       { success: false, error: (error as Error).message },
       { status: 500 }
@@ -137,7 +137,7 @@ export async function PUT(request: NextRequest) {
           await deleteR2Image(oldImageUrl)
         }
       } catch (e) {
-        console.error('[JNI] Failed to cleanup old popup image:', e)
+        console.error('[Trump] Failed to cleanup old popup image:', e)
       }
     }
 
@@ -157,7 +157,7 @@ export async function PUT(request: NextRequest) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('[JNI] Popups PUT error:', error)
+    console.error('[Trump] Popups PUT error:', error)
     return NextResponse.json(
       { success: false, error: (error as Error).message },
       { status: 500 }
@@ -187,14 +187,14 @@ export async function DELETE(request: NextRequest) {
         await deleteR2Image(imageUrl)
       }
     } catch (e) {
-      console.error('[JNI] Failed to cleanup popup image on delete:', e)
+      console.error('[Trump] Failed to cleanup popup image on delete:', e)
     }
 
     await base(POPUPS_TABLE_ID).destroy(id)
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('[JNI] Popups DELETE error:', error)
+    console.error('[Trump] Popups DELETE error:', error)
     return NextResponse.json(
       { success: false, error: (error as Error).message },
       { status: 500 }

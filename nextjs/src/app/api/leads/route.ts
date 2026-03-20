@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import Airtable from "airtable";
 
-const AIRTABLE_BASE_ID = "appxU3n3KqoUr3l9e";
+const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID!;
 const AIRTABLE_TABLE = "고객접수";
 const META_TABLE = "tbl7hadkFGFGzkc0x";
 
 function getBase() {
-  const token = process.env.AIRTABLE_TOKEN;
-  if (!token) throw new Error("AIRTABLE_TOKEN not configured");
+  const token = process.env.AIRTABLE_API_KEY;
+  if (!token) throw new Error("AIRTABLE_API_KEY not configured");
   return new Airtable({ apiKey: token }).base(AIRTABLE_BASE_ID);
 }
 
@@ -134,7 +134,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ success: true, leads: records, stats });
   } catch (error) {
-    console.error("[JNI] Leads API error:", error);
+    console.error("[Trump] Leads API error:", error);
     return NextResponse.json(
       { success: false, error: (error as Error).message },
       { status: 500 },
@@ -164,7 +164,7 @@ export async function PATCH(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("[JNI] Leads PATCH error:", error);
+    console.error("[Trump] Leads PATCH error:", error);
     return NextResponse.json(
       { success: false, error: (error as Error).message },
       { status: 500 },
@@ -191,7 +191,7 @@ export async function DELETE(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("[JNI] Leads DELETE error:", error);
+    console.error("[Trump] Leads DELETE error:", error);
     return NextResponse.json(
       { success: false, error: (error as Error).message },
       { status: 500 },
