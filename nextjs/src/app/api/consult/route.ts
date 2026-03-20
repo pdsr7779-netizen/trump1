@@ -22,7 +22,7 @@ async function saveToAirtable(data: ConsultData) {
   if (!token || !baseId || !tableId)
     throw new Error("Airtable 환경변수 미설정");
 
-  await fetch(`https://api.airtable.com/v0/${baseId}/${tableId}`, {
+  const res = await fetch(`https://api.airtable.com/v0/${baseId}/${tableId}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -32,18 +32,18 @@ async function saveToAirtable(data: ConsultData) {
       records: [
         {
           fields: {
-            기업명: data.company,
-            사업자번호: data.bizno,
-            대표자명: data.name,
-            연락처: data.phone,
-            이메일: data.email,
-            업종: data.industry || "",
-            설립연도: data.founded || "",
-            통화가능시간: data.consultTime,
-            자금규모: data.amount || "",
-            자금종류: data.fundType,
-            문의사항: data.message || "",
-            접수일시: new Date().toLocaleString("ko-KR", {
+            "\uAE30\uC5C5\uBA85": data.company,
+            "\uC0AC\uC5C5\uC790\uBC88\uD638": data.bizno,
+            "\uB300\uD45C\uC790\uBA85": data.name,
+            "\uC5F0\uB77D\uCC98": data.phone,
+            "\uC774\uBA54\uC77C": data.email,
+            "\uC5C5\uC885": data.industry || "",
+            "\uC124\uB9BD\uC5F0\uB3C4": data.founded || "",
+            "\uD1B5\uD654\uAC00\uB2A5\uC2DC\uAC04": data.consultTime,
+            "\uC790\uAE08\uADDC\uBAA8": data.amount || "",
+            "\uC790\uAE08\uC885\uB958": data.fundType,
+            "\uBB38\uC758\uC0AC\uD56D": data.message || "",
+            "\uC811\uC218\uC77C\uC2DC": new Date().toLocaleString("ko-KR", {
               timeZone: "Asia/Seoul",
             }),
           },
@@ -51,6 +51,11 @@ async function saveToAirtable(data: ConsultData) {
       ],
     }),
   });
+  if (!res.ok) {
+    const err = await res.text();
+    console.error("[Trump] Airtable 저장 실패:", res.status, err);
+    throw new Error(`Airtable error: ${res.status}`);
+  }
 }
 
 // 텔레그램 알림 발송
