@@ -45,7 +45,7 @@ export default function AdminLoginPage() {
       const res = await fetch(`${API_BASE}/api/admin-auth`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ action: "send-code" }),
       });
       const data = await res.json();
       if (data.success) {
@@ -72,14 +72,13 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(`${API_BASE}/api/admin-verify`, {
+      const res = await fetch(`${API_BASE}/api/admin-auth`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
+        body: JSON.stringify({ action: "verify-code", code }),
       });
       const data = await res.json();
-      if (data.success && data.token) {
-        localStorage.setItem("trump_admin_token", data.token);
+      if (data.success) {
         setSuccess("인증 성공! 대시보드로 이동합니다.");
         setTimeout(() => {
           window.location.href = "/dashboard";
