@@ -11,7 +11,12 @@ export default function AdminLoginPage() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const [resendTimer, setResendTimer] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const codeRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("trump_admin_token");
@@ -92,6 +97,20 @@ export default function AdminLoginPage() {
       setLoading(false);
     }
   };
+
+  if (!mounted) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "linear-gradient(135deg, #111d33 0%, #1b2b4b 100%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      />
+    );
+  }
 
   return (
     <>
