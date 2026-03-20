@@ -1,389 +1,1285 @@
-'use client'
+"use client";
 
-import { useState, useEffect, useRef, FormEvent } from 'react'
-import { trackFormVisible, trackFormStart, trackFormSubmit } from '@/lib/gtag'
+import { useState, useEffect, useRef, FormEvent } from "react";
+import { trackFormVisible, trackFormStart, trackFormSubmit } from "@/lib/gtag";
 
-const FUND_TYPES = ['창업자금', '운전자금', '시설자금', '기타자금']
-const INDUSTRIES = ['제조업', '도소매업', '서비스업', '건설업', 'IT/소프트웨어', '기타']
+const FUND_TYPES = ["창업자금", "운전자금", "시설자금", "기타자금"];
+const INDUSTRIES = [
+  "제조업",
+  "도소매업",
+  "서비스업",
+  "건설업",
+  "IT/소프트웨어",
+  "기타",
+];
 const CONSULT_TIMES = [
-  '오전 10:00 - 11:00',
-  '오전 11:00 - 12:00',
-  '오후 14:00 - 15:00',
-  '오후 15:00 - 16:00',
-  '오후 16:00 - 17:00',
-  '오후 17:00 - 18:00',
-  '오후 18:00 - 19:00',
-  '언제나 가능',
-]
+  "오전 09:00 - 10:00",
+  "오전 10:00 - 11:00",
+  "오전 11:00 - 12:00",
+  "오후 14:00 - 15:00",
+  "오후 15:00 - 16:00",
+  "오후 16:00 - 17:00",
+  "오후 17:00 - 18:00",
+  "언제나 가능",
+];
 const AMOUNTS = [
-  '5천만원 이하',
-  '5천만원 ~ 1억원',
-  '1억원 ~ 3억원',
-  '3억원 ~ 5억원',
-  '5억원 ~ 10억원',
-  '10억원 이상',
-]
+  "5천만원 이하",
+  "5천만원 ~ 1억원",
+  "1억원 ~ 3억원",
+  "3억원 ~ 5억원",
+  "5억원 ~ 10억원",
+  "10억원 이상",
+];
+
+const STEP_LABELS = ["기업 정보", "자금 정보", "연락처 입력"];
 
 export default function ConsultForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle')
-  const [selectedFundTypes, setSelectedFundTypes] = useState<string[]>([])
-  const [showPrivacy, setShowPrivacy] = useState(false)
-  const sectionRef = useRef<HTMLElement>(null)
-  const formStarted = useRef(false)
+  const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [selectedFundTypes, setSelectedFundTypes] = useState<string[]>([]);
+  const [showPrivacy, setShowPrivacy] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const formStarted = useRef(false);
 
-  // form_visible: IntersectionObserver
+  // form data for summary panel
+  const [formData, setFormData] = useState({
+    company: "",
+    bizno: "",
+    industry: "",
+    founded: "",
+    amount: "",
+    name: "",
+    phone: "",
+    email: "",
+    consultTime: "",
+    message: "",
+  });
+
   useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    let fired = false
+    const el = sectionRef.current;
+    if (!el) return;
+    let fired = false;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !fired) {
-          fired = true
-          trackFormVisible(window.location.pathname)
-          observer.disconnect()
+          fired = true;
+          trackFormVisible(window.location.pathname);
+          observer.disconnect();
         }
       },
-      { threshold: 0.3 }
-    )
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
+      { threshold: 0.3 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
-  // form_start: first field focus
   const handleFieldFocus = (fieldName: string) => {
     if (!formStarted.current) {
-      formStarted.current = true
-      trackFormStart(window.location.pathname, fieldName)
+      formStarted.current = true;
+      trackFormStart(window.location.pathname, fieldName);
     }
-  }
+  };
+
+  const updateField = (name: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const toggleFundType = (type: string) => {
     setSelectedFundTypes((prev) =>
-      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
-    )
-  }
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type],
+    );
+  };
 
   const formatBizNo = (value: string) => {
-    const nums = value.replace(/[^0-9]/g, '')
-    if (nums.length <= 3) return nums
-    if (nums.length <= 5) return `${nums.slice(0, 3)}-${nums.slice(3)}`
-    return `${nums.slice(0, 3)}-${nums.slice(3, 5)}-${nums.slice(5, 10)}`
-  }
+    const nums = value.replace(/[^0-9]/g, "");
+    if (nums.length <= 3) return nums;
+    if (nums.length <= 5) return `${nums.slice(0, 3)}-${nums.slice(3)}`;
+    return `${nums.slice(0, 3)}-${nums.slice(3, 5)}-${nums.slice(5, 10)}`;
+  };
 
   const formatPhone = (value: string) => {
-    const nums = value.replace(/[^0-9]/g, '')
-    if (nums.length <= 3) return nums
-    if (nums.length <= 7) return `${nums.slice(0, 3)}-${nums.slice(3)}`
-    return `${nums.slice(0, 3)}-${nums.slice(3, 7)}-${nums.slice(7, 11)}`
-  }
+    const nums = value.replace(/[^0-9]/g, "");
+    if (nums.length <= 3) return nums;
+    if (nums.length <= 7) return `${nums.slice(0, 3)}-${nums.slice(3)}`;
+    return `${nums.slice(0, 3)}-${nums.slice(3, 7)}-${nums.slice(7, 11)}`;
+  };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const form = e.currentTarget
-    const formData = new FormData(form)
+  const validateStep = (s: number): boolean => {
+    if (s === 1) {
+      if (!formData.company.trim()) {
+        alert("기업명을 입력해주세요.");
+        return false;
+      }
+      if (!formData.bizno.trim()) {
+        alert("사업자번호를 입력해주세요.");
+        return false;
+      }
+    }
+    if (s === 3) {
+      if (!formData.name.trim()) {
+        alert("대표자명을 입력해주세요.");
+        return false;
+      }
+      if (!formData.phone.trim()) {
+        alert("연락처를 입력해주세요.");
+        return false;
+      }
+      if (!formData.email.trim()) {
+        alert("이메일을 입력해주세요.");
+        return false;
+      }
+      if (!formData.consultTime) {
+        alert("통화 가능 시간을 선택해주세요.");
+        return false;
+      }
+    }
+    return true;
+  };
 
-    if (selectedFundTypes.length === 0) {
-      alert('지원받고 싶은 자금 종류를 하나 이상 선택해주세요.')
-      return
+  const goNext = () => {
+    if (!validateStep(step)) return;
+    if (step < 3) setStep(step + 1);
+  };
+
+  const goPrev = () => {
+    if (step > 1) setStep(step - 1);
+  };
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!validateStep(3)) return;
+
+    const privacyCheck =
+      formRef.current?.querySelector<HTMLInputElement>('[name="privacy"]');
+    if (!privacyCheck?.checked) {
+      alert("개인정보 수집 및 이용에 동의해주세요.");
+      return;
     }
 
-    setIsSubmitting(true)
-    setStatus('idle')
+    setIsSubmitting(true);
+    setStatus("idle");
 
     try {
       const data = {
-        company: formData.get('company') as string,
-        bizno: formData.get('bizno') as string,
-        name: formData.get('name') as string,
-        phone: formData.get('phone') as string,
-        email: formData.get('email') as string,
-        industry: formData.get('industry') as string,
-        founded: formData.get('founded') as string,
-        consultTime: formData.get('consultTime') as string,
-        amount: formData.get('amount') as string,
-        fundType: selectedFundTypes.join(', '),
-        message: formData.get('message') as string,
-      }
+        ...formData,
+        fundType: selectedFundTypes.join(", "),
+      };
 
-      const res = await fetch('/api/consult', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/consult", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-      })
+      });
 
-      if (!res.ok) throw new Error('Submit failed')
+      if (!res.ok) throw new Error("Submit failed");
 
-      trackFormSubmit(window.location.pathname)
-      setStatus('success')
-      form.reset()
-      setSelectedFundTypes([])
-      formStarted.current = false
-      setTimeout(() => setStatus('idle'), 5000)
+      trackFormSubmit(window.location.pathname);
+      setStatus("success");
+      setStep(1);
+      setFormData({
+        company: "",
+        bizno: "",
+        industry: "",
+        founded: "",
+        amount: "",
+        name: "",
+        phone: "",
+        email: "",
+        consultTime: "",
+        message: "",
+      });
+      setSelectedFundTypes([]);
+      formStarted.current = false;
+      formRef.current?.reset();
+      setTimeout(() => setStatus("idle"), 5000);
     } catch {
-      setStatus('error')
-      setTimeout(() => setStatus('idle'), 5000)
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 5000);
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
+
+  const summaryValue = (v: string) => v || "미입력";
+  const summaryEmpty = (v: string) => !v;
 
   return (
-    <section id="consult-form" ref={sectionRef} className="section-dark section-padding">
-      <div className="max-w-content mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-10 lg:gap-[60px] items-start">
-          {/* 좌측 정보 */}
-          <div className="lg:sticky lg:top-[100px] flex flex-col items-center text-center lg:items-start lg:text-left">
-            <div className="w-full max-w-[350px] lg:pl-7">
-              <span className="inline-block gold-gradient-bg text-white px-4 py-1.5 rounded-full text-[13px] font-semibold mb-5">
-                정책자금 경영컨설팅
-              </span>
-              <h2 className="text-[28px] md:text-[36px] font-bold text-white leading-tight mb-4">
-                자금 조달의 든든한<br />
-                <span className="font-extrabold text-white">무료 상담</span>
-              </h2>
-              <p className="text-lg md:text-[18px] text-white/95 leading-relaxed mb-8 md:mb-10">
-                트럼프 파트너스의 체계적인 진단으로<br />
-                정책자금 심사 통과율을 높여드립니다
-              </p>
+    <section
+      id="consult-form"
+      ref={sectionRef}
+      className="section-dark section-padding"
+    >
+      <style jsx>{`
+        .wz-section {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
+        }
+        .wz-header {
+          text-align: center;
+          margin-bottom: 32px;
+        }
+        .wz-badge {
+          display: inline-block;
+          background: linear-gradient(
+            135deg,
+            var(--gold-dark, #8b6914),
+            var(--gold, #c9a84c)
+          );
+          color: white;
+          padding: 6px 16px;
+          border-radius: 20px;
+          font-size: 13px;
+          font-weight: 600;
+          margin-bottom: 16px;
+        }
+        .wz-header h2 {
+          font-size: 28px;
+          font-weight: 700;
+          color: white;
+          margin-bottom: 8px;
+        }
+        @media (min-width: 768px) {
+          .wz-header h2 {
+            font-size: 36px;
+          }
+        }
+        .wz-header p {
+          font-size: 16px;
+          color: rgba(255, 255, 255, 0.8);
+        }
+        .wz-body {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+        @media (min-width: 768px) {
+          .wz-body {
+            grid-template-columns: 280px 1fr 240px;
+          }
+        }
 
-              <ul className="list-none space-y-3 mb-8 md:mb-10 inline-block text-left">
-                {['심사 통과율 향상', '맞춤형 자금 확보 전략', '정책자금 맞춤 상담', '초기상담 무료'].map((text) => (
-                  <li key={text} className="flex items-center gap-3">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 bg-gold/20 border-2 border-gold/40">
-                      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-gold" style={{ filter: 'drop-shadow(0 0 4px rgba(212,175,55,0.6))' }}>
-                        <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
-                      </svg>
-                    </div>
-                    <span className="text-sm md:text-base text-white/95 font-semibold">{text}</span>
-                  </li>
-                ))}
-              </ul>
+        /* Left panel */
+        .wz-left {
+          display: none;
+          position: relative;
+          overflow: hidden;
+          border-radius: 16px 0 0 16px;
+          background: linear-gradient(180deg, #111d33 0%, #1b2b4b 100%);
+        }
+        @media (min-width: 768px) {
+          .wz-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 32px 24px;
+            text-align: center;
+          }
+        }
+        .wz-left-badge {
+          display: inline-block;
+          background: rgba(201, 168, 76, 0.2);
+          color: var(--gold, #c9a84c);
+          padding: 4px 12px;
+          border-radius: 12px;
+          font-size: 12px;
+          font-weight: 600;
+          margin-bottom: 16px;
+        }
+        .wz-left h3 {
+          font-size: 15px;
+          font-weight: 700;
+          color: white;
+          line-height: 1.5;
+          margin-bottom: 12px;
+        }
+        .wz-left p {
+          font-size: 12px;
+          color: rgba(255, 255, 255, 0.85);
+          line-height: 1.6;
+          margin-bottom: 8px;
+        }
+        .wz-left-note {
+          font-size: 10px;
+          color: rgba(255, 255, 255, 0.5);
+          margin-top: 12px;
+        }
 
-              <div className="gold-gradient-bg rounded-xl p-6 text-center w-full gold-glow">
-                <h3 className="text-xl font-bold text-white mb-4">트럼프 파트너스 상담센터</h3>
-                <div className="space-y-3">
-                  <p className="text-white text-base">
-                    대표전화: <strong className="text-lg">1844-1053</strong>
-                  </p>
-                  <p className="text-white text-base">상담시간: 평일 10:00 ~ 18:00</p>
-                </div>
-              </div>
-            </div>
+        /* Center form */
+        .wz-center {
+          background: rgba(255, 255, 255, 0.92);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
+          border: 2px solid rgba(201, 168, 76, 0.3);
+          border-radius: 16px;
+          padding: 32px;
+          position: relative;
+        }
+        @media (min-width: 768px) {
+          .wz-center {
+            border-radius: 0;
+            padding: 40px;
+          }
+        }
+        @media (max-width: 767px) {
+          .wz-center {
+            padding: 20px 16px;
+            border-radius: 12px;
+          }
+        }
+        .wz-center::before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 2px;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(201, 168, 76, 0.6),
+            transparent
+          );
+        }
+
+        /* Progress */
+        .wz-progress {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 28px;
+        }
+        .wz-step {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 8px;
+        }
+        .wz-step-num {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: #e0e0e0;
+          color: #9e9e9e;
+          font-size: 15px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.3s;
+        }
+        .wz-step-label {
+          font-size: 12px;
+          font-weight: 500;
+          color: #9e9e9e;
+          white-space: nowrap;
+          transition: color 0.3s;
+        }
+        .wz-step.active .wz-step-num {
+          background: linear-gradient(
+            135deg,
+            var(--gold-dark, #8b6914),
+            var(--gold, #c9a84c)
+          );
+          color: #fff;
+          box-shadow: 0 4px 12px rgba(201, 168, 76, 0.4);
+        }
+        .wz-step.active .wz-step-label {
+          color: var(--gold-dark, #8b6914);
+          font-weight: 600;
+        }
+        .wz-step.done .wz-step-num {
+          background: var(--gold, #c9a84c);
+          color: #fff;
+        }
+        .wz-step.done .wz-step-label {
+          color: var(--gold-dark, #8b6914);
+        }
+        .wz-step-line {
+          flex: 1;
+          height: 2px;
+          background: #e0e0e0;
+          margin: 0 8px 20px;
+          transition: background 0.3s;
+          min-width: 32px;
+        }
+        .wz-step-line.done {
+          background: var(--gold, #c9a84c);
+        }
+
+        /* Mobile summary */
+        .wz-mob-sum {
+          display: none;
+          background: #f8fafc;
+          border: 1.5px solid #e2e8f0;
+          border-left: 3px solid var(--gold, #c9a84c);
+          border-radius: 8px;
+          padding: 10px 12px;
+          margin-bottom: 14px;
+          align-items: flex-start;
+          gap: 10px;
+        }
+        @media (max-width: 767px) {
+          .wz-mob-sum.show {
+            display: flex;
+          }
+        }
+
+        /* Panel */
+        .wz-panel {
+          display: none;
+        }
+        .wz-panel.active {
+          display: block;
+          animation: wzFadeIn 0.3s ease;
+        }
+        @keyframes wzFadeIn {
+          from {
+            opacity: 0;
+            transform: translateX(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        /* Form elements */
+        .wz-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+          margin-bottom: 16px;
+        }
+        .wz-row.full {
+          grid-template-columns: 1fr;
+        }
+        @media (max-width: 480px) {
+          .wz-row {
+            grid-template-columns: 1fr;
+            gap: 12px;
+          }
+        }
+        .wz-label {
+          display: block;
+          font-size: 14px;
+          font-weight: 600;
+          color: #1e293b;
+          margin-bottom: 8px;
+        }
+        .wz-req {
+          color: #ef4444;
+        }
+        .wz-input {
+          width: 100%;
+          padding: 12px 16px;
+          font-size: 15px;
+          line-height: 1.5;
+          border: 2px solid #d1d5db;
+          border-radius: 4px;
+          background: #fff;
+          color: #111;
+          transition: all 0.2s;
+          box-sizing: border-box;
+          height: 46px;
+          font-family: inherit;
+          outline: none;
+        }
+        .wz-input::placeholder {
+          color: #9ca3af;
+        }
+        .wz-input:focus {
+          border-color: var(--gold, #c9a84c);
+          box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+        }
+        select.wz-input {
+          cursor: pointer;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 12px center;
+          background-size: 20px;
+          padding-right: 40px;
+        }
+        textarea.wz-input {
+          min-height: 60px;
+          height: 60px;
+          resize: vertical;
+        }
+
+        /* Fund type */
+        .wz-fund-group {
+          margin-bottom: 16px;
+        }
+        .wz-fund-label {
+          font-size: 14px;
+          font-weight: 600;
+          color: #1e293b;
+          margin-bottom: 12px;
+          display: block;
+        }
+        .wz-fund-opts {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 12px;
+        }
+        .wz-fund-opt {
+          position: relative;
+        }
+        .wz-fund-opt input[type="checkbox"] {
+          position: absolute;
+          opacity: 0;
+        }
+        .wz-fund-opt label {
+          display: block;
+          padding: 12px 16px;
+          background: #fff;
+          border: 2px solid #d1d5db;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: all 0.2s;
+          text-align: center;
+          font-size: 14px;
+          font-weight: 500;
+          color: #1e293b;
+        }
+        .wz-fund-opt.checked label {
+          background: rgba(201, 168, 76, 0.1);
+          border-color: var(--gold, #c9a84c);
+          color: var(--gold-dark, #8b6914);
+          font-weight: 600;
+        }
+
+        /* Privacy */
+        .wz-privacy {
+          margin: 20px 0;
+          padding: 16px;
+          background: #f8fafc;
+          border: 1px solid #e5e7eb;
+          border-radius: 8px;
+        }
+        .wz-privacy-title {
+          font-size: 16px;
+          font-weight: 600;
+          color: #1e293b;
+          margin-bottom: 12px;
+        }
+        .wz-privacy-check {
+          display: flex;
+          align-items: flex-start;
+          gap: 8px;
+        }
+        .wz-privacy-check input[type="checkbox"] {
+          width: 18px;
+          height: 18px;
+          cursor: pointer;
+          margin-top: 2px;
+          flex-shrink: 0;
+          accent-color: var(--gold, #c9a84c);
+        }
+        .wz-privacy-check label {
+          font-size: 14px;
+          color: #475569;
+          cursor: pointer;
+          line-height: 1.4;
+        }
+        .wz-privacy-link {
+          color: var(--gold-dark, #8b6914);
+          text-decoration: underline;
+          cursor: pointer;
+          font-size: 13px;
+          margin-left: 4px;
+          background: none;
+          border: none;
+          font-family: inherit;
+        }
+        .wz-privacy-content {
+          font-size: 13px;
+          color: #64748b;
+          line-height: 1.6;
+          max-height: 150px;
+          overflow-y: auto;
+          padding: 12px;
+          background: #fff;
+          border: 1px solid #e5e7eb;
+          border-radius: 4px;
+          margin-top: 12px;
+        }
+
+        /* Buttons */
+        .wz-btns {
+          display: flex;
+          gap: 12px;
+          justify-content: flex-end;
+          margin-top: 24px;
+        }
+        .wz-btn {
+          padding: 12px 28px;
+          border-radius: 8px;
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+          border: none;
+          transition: all 0.2s;
+          font-family: inherit;
+        }
+        .wz-btn-prev {
+          background: #f5f5f5;
+          color: #555;
+          border: 1px solid #ddd;
+        }
+        .wz-btn-prev:hover {
+          background: #e8e8e8;
+        }
+        .wz-btn-next {
+          background: linear-gradient(
+            135deg,
+            var(--gold-dark, #8b6914),
+            var(--gold, #c9a84c)
+          );
+          color: #fff;
+          box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
+        }
+        .wz-btn-next:hover {
+          box-shadow: 0 6px 16px rgba(201, 168, 76, 0.45);
+          transform: translateY(-1px);
+        }
+        .wz-submit {
+          background: linear-gradient(
+            135deg,
+            var(--gold-dark, #8b6914),
+            var(--gold, #c9a84c)
+          );
+          color: #fff;
+          padding: 16px 48px;
+          border: none;
+          border-radius: 4px;
+          font-size: 18px;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s;
+          box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
+          font-family: inherit;
+        }
+        .wz-submit:hover {
+          box-shadow: 0 6px 16px rgba(201, 168, 76, 0.45);
+          transform: translateY(-2px);
+        }
+        .wz-submit:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          transform: none;
+        }
+        @media (max-width: 480px) {
+          .wz-btns {
+            flex-direction: column-reverse;
+            gap: 8px;
+          }
+          .wz-btn,
+          .wz-submit {
+            width: 100%;
+            text-align: center;
+          }
+        }
+
+        /* Messages */
+        .wz-msg {
+          padding: 15px;
+          border-radius: 8px;
+          margin-top: 20px;
+          text-align: center;
+          font-weight: 500;
+        }
+        .wz-msg.success {
+          background: #d4edda;
+          color: #155724;
+          border: 1px solid #c3e6cb;
+        }
+        .wz-msg.error {
+          background: #f8d7da;
+          color: #721c24;
+          border: 1px solid #f5c6cb;
+        }
+
+        /* Summary panel */
+        .wz-summary {
+          display: none;
+          background: #fff;
+          border-left: 1px solid #e5e7eb;
+          border-radius: 0 16px 16px 0;
+          padding: 28px 24px;
+          overflow-y: auto;
+        }
+        @media (min-width: 768px) {
+          .wz-summary {
+            display: block;
+          }
+        }
+        .wz-sum-title {
+          font-size: 15px;
+          font-weight: 700;
+          color: var(--gold-dark, #8b6914);
+          margin-bottom: 20px;
+          padding-bottom: 10px;
+          border-bottom: 2px solid var(--gold, #c9a84c);
+        }
+        .wz-sum-sec {
+          margin-bottom: 18px;
+        }
+        .wz-sum-hdr {
+          font-size: 12px;
+          font-weight: 700;
+          color: var(--gold-dark, #8b6914);
+          margin-bottom: 8px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+        .wz-sum-badge {
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: var(--gold, #c9a84c);
+          color: #fff;
+          font-size: 10px;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .wz-sum-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 5px 0;
+          font-size: 12px;
+          border-bottom: 1px solid #f3f4f6;
+        }
+        .wz-sum-label {
+          color: #6b7280;
+        }
+        .wz-sum-val {
+          color: #1f2937;
+          font-weight: 600;
+          max-width: 140px;
+          text-align: right;
+          word-break: break-all;
+        }
+        .wz-sum-val.empty {
+          color: #d1d5db;
+          font-style: italic;
+          font-weight: 400;
+        }
+        .wz-sum-tags {
+          display: flex;
+          gap: 4px;
+          flex-wrap: wrap;
+          margin-top: 6px;
+        }
+        .wz-sum-tag {
+          padding: 3px 8px;
+          border-radius: 4px;
+          font-size: 10px;
+          font-weight: 600;
+          background: rgba(201, 168, 76, 0.15);
+          color: var(--gold-dark, #8b6914);
+        }
+      `}</style>
+
+      <div className="wz-section">
+        <div className="wz-header">
+          <span className="wz-badge">정부정책자금 경영컨설팅</span>
+          <h2>무료 상담 신청</h2>
+          <p>3단계로 간편하게 정부정책자금 상담을 신청하세요</p>
+        </div>
+
+        <div className="wz-body">
+          {/* Left panel - PC only */}
+          <div className="wz-left">
+            <span className="wz-left-badge">심사 통과율 향상</span>
+            <h3>
+              체계적인 현황분석으로
+              <br />
+              최적의 정부정책자금을 확보하세요
+            </h3>
+            <p>
+              기업심사관 이소영이
+              <br />
+              직접 자금조달을 설계합니다
+            </p>
+            <p className="wz-left-note">※ 기업대출알선 서비스가 아닙니다</p>
           </div>
 
-          {/* 우측 폼 */}
-          <div className="glass-light rounded-2xl p-5 md:p-10 relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-gold/60 to-transparent animate-pulse-line" />
-
-            <div className="text-center mb-6 md:mb-10">
-              <h3 className="text-xl md:text-2xl font-bold text-slate-800 mb-2">정책자금 무료 상담 신청</h3>
-              <p className="text-sm md:text-base text-slate-500">정보 입력 후 전문가 맞춤 상담을 받아보세요</p>
-              <p className="text-[9px] md:text-xs text-slate-400 mt-2.5 leading-relaxed">
-                <span className="block">※ 트럼프 파트너스는 정책자금 서류 준비를 안내하며, 직접 대리 작성하지 않습니다.</span>
-              </p>
+          {/* Center - Form */}
+          <div className="wz-center">
+            {/* Progress bar */}
+            <div className="wz-progress">
+              {STEP_LABELS.map((label, i) => {
+                const s = i + 1;
+                const cls = s < step ? "done" : s === step ? "active" : "";
+                return (
+                  <div key={s} style={{ display: "contents" }}>
+                    {i > 0 && (
+                      <div
+                        className={`wz-step-line ${s <= step ? "done" : ""}`}
+                      />
+                    )}
+                    <div className={`wz-step ${cls}`}>
+                      <div className="wz-step-num">{s < step ? "✓" : s}</div>
+                      <div className="wz-step-label">{label}</div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
 
-            <form onSubmit={handleSubmit}>
-              {/* 기본 정보 - 4열 */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-5 mb-3 md:mb-4">
-                <FormField label="기업명" name="company" required onFocus={handleFieldFocus} />
-                <FormField label="사업자번호" name="bizno" placeholder="000-00-00000" required onFormat={formatBizNo} onFocus={handleFieldFocus} />
-                <FormField label="대표자명" name="name" required onFocus={handleFieldFocus} />
-                <FormField label="연락처" name="phone" type="tel" placeholder="010-0000-0000" required onFormat={formatPhone} onFocus={handleFieldFocus} />
+            {/* Mobile summary for step 2+ */}
+            {step > 1 && (
+              <div className="wz-mob-sum show">
+                <div
+                  style={{
+                    width: 20,
+                    height: 20,
+                    background: "var(--gold, #C9A84C)",
+                    borderRadius: "50%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#fff",
+                    fontSize: 11,
+                    flexShrink: 0,
+                    marginTop: 1,
+                  }}
+                >
+                  ✓
+                </div>
+                <div
+                  style={{ fontSize: 12, color: "#475569", lineHeight: 1.6 }}
+                >
+                  {step === 2 && formData.company && (
+                    <>
+                      <strong>{formData.company}</strong>{" "}
+                      {formData.bizno && `(${formData.bizno})`}
+                    </>
+                  )}
+                  {step === 3 && (
+                    <>
+                      <strong>{formData.company}</strong>
+                      {formData.amount && <> · {formData.amount}</>}
+                      {selectedFundTypes.length > 0 && (
+                        <> · {selectedFundTypes.join(", ")}</>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
+            )}
 
-              {/* 연락 정보 - 4열 */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 md:gap-5 mb-3 md:mb-4">
-                <FormField label="이메일" name="email" type="email" required onFocus={handleFieldFocus} />
-                <SelectField label="업종" name="industry" options={INDUSTRIES} onFocus={handleFieldFocus} />
-                <FormField label="설립연도" name="founded" placeholder="2020" onFocus={handleFieldFocus} />
-                <SelectField label="통화 가능 시간" name="consultTime" options={CONSULT_TIMES} required onFocus={handleFieldFocus} />
-              </div>
-
-              {/* 필요 자금 규모 - 1열 */}
-              <div className="grid grid-cols-1 gap-2.5 md:gap-5 mb-3 md:mb-4">
-                <SelectField label="필요 자금 규모" name="amount" options={AMOUNTS} onFocus={handleFieldFocus} />
-              </div>
-
-              {/* 자금 종류 선택 */}
-              <div className="mb-3 md:mb-4">
-                <label className="block text-xs md:text-sm font-semibold text-slate-800 mb-2 md:mb-3">
-                  지원받고 싶은 자금 종류 (복수 선택 가능)
-                </label>
-                <div className="grid grid-cols-2 gap-2 md:gap-3">
-                  {FUND_TYPES.map((type) => (
-                    <button
-                      key={type}
-                      type="button"
-                      onClick={() => toggleFundType(type)}
-                      className={`py-2 md:py-3 px-3 md:px-4 rounded-lg text-xs md:text-sm font-medium text-center transition-all duration-300 border
-                        ${selectedFundTypes.includes(type)
-                          ? 'bg-gold/10 border-gold text-gold font-semibold'
-                          : 'bg-slate-50/90 border-slate-200 text-slate-800 hover:border-gold/50'
-                        }`}
+            <form ref={formRef} onSubmit={handleSubmit}>
+              {/* Step 1: 기업 정보 */}
+              <div className={`wz-panel ${step === 1 ? "active" : ""}`}>
+                <div className="wz-row">
+                  <div>
+                    <label className="wz-label">
+                      기업명 <span className="wz-req">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="wz-input"
+                      name="company"
+                      required
+                      value={formData.company}
+                      onChange={(e) => updateField("company", e.target.value)}
+                      onFocus={() => handleFieldFocus("company")}
+                    />
+                  </div>
+                  <div>
+                    <label className="wz-label">
+                      사업자번호 <span className="wz-req">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="wz-input"
+                      name="bizno"
+                      placeholder="000-00-00000"
+                      required
+                      value={formData.bizno}
+                      onChange={(e) =>
+                        updateField("bizno", formatBizNo(e.target.value))
+                      }
+                      onFocus={() => handleFieldFocus("bizno")}
+                    />
+                  </div>
+                </div>
+                <div className="wz-row">
+                  <div>
+                    <label className="wz-label">업종</label>
+                    <select
+                      className="wz-input"
+                      name="industry"
+                      value={formData.industry}
+                      onChange={(e) => updateField("industry", e.target.value)}
+                      onFocus={() => handleFieldFocus("industry")}
                     >
-                      {type}
-                    </button>
-                  ))}
+                      <option value="">선택하세요</option>
+                      {INDUSTRIES.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="wz-label">설립연도</label>
+                    <input
+                      type="text"
+                      className="wz-input"
+                      name="founded"
+                      placeholder="2020"
+                      value={formData.founded}
+                      onChange={(e) => updateField("founded", e.target.value)}
+                      onFocus={() => handleFieldFocus("founded")}
+                    />
+                  </div>
+                </div>
+                <div className="wz-btns">
+                  <button
+                    type="button"
+                    className="wz-btn wz-btn-next"
+                    onClick={goNext}
+                  >
+                    다음 →
+                  </button>
                 </div>
               </div>
 
-              {/* 문의사항 */}
-              <div className="mb-3 md:mb-4">
-                <label className="block text-xs md:text-sm font-semibold text-slate-800 mb-1 md:mb-2">문의사항</label>
-                <textarea
-                  name="message"
-                  placeholder="필요하신 자금의 용도나 현재 경영 상황 등을 간략히 적어주세요"
-                  onFocus={() => handleFieldFocus('message')}
-                  className="w-full h-[40px] md:h-[60px] px-3 md:px-4 py-2 text-sm md:text-[15px] text-slate-800 placeholder:text-[#8b7a50] border border-slate-200 rounded-lg bg-white/90 resize-y
-                    focus:outline-none focus:border-gold focus:ring-[3px] focus:ring-gold/10 transition-all"
-                />
+              {/* Step 2: 자금 정보 */}
+              <div className={`wz-panel ${step === 2 ? "active" : ""}`}>
+                <div className="wz-row full">
+                  <div>
+                    <label className="wz-label">필요 자금 규모</label>
+                    <select
+                      className="wz-input"
+                      name="amount"
+                      value={formData.amount}
+                      onChange={(e) => updateField("amount", e.target.value)}
+                      onFocus={() => handleFieldFocus("amount")}
+                    >
+                      <option value="">선택하세요</option>
+                      {AMOUNTS.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="wz-fund-group">
+                  <span className="wz-fund-label">
+                    지원받고 싶은 자금 종류 (복수 선택 가능)
+                  </span>
+                  <div className="wz-fund-opts">
+                    {FUND_TYPES.map((type, i) => (
+                      <div
+                        key={type}
+                        className={`wz-fund-opt ${selectedFundTypes.includes(type) ? "checked" : ""}`}
+                      >
+                        <input
+                          type="checkbox"
+                          id={`fund-${i}`}
+                          checked={selectedFundTypes.includes(type)}
+                          onChange={() => toggleFundType(type)}
+                        />
+                        <label htmlFor={`fund-${i}`}>{type}</label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="wz-btns">
+                  <button
+                    type="button"
+                    className="wz-btn wz-btn-prev"
+                    onClick={goPrev}
+                  >
+                    ← 이전
+                  </button>
+                  <button
+                    type="button"
+                    className="wz-btn wz-btn-next"
+                    onClick={goNext}
+                  >
+                    다음 →
+                  </button>
+                </div>
               </div>
 
-              {/* 개인정보 동의 */}
-              <div className="my-3 md:my-5 p-3 md:p-4 bg-slate-50/80 rounded-lg">
-                <div className="flex items-start gap-2">
-                  <input
-                    type="checkbox"
-                    id="privacy"
-                    name="privacy"
-                    required
-                    className="w-4 h-4 md:w-[18px] md:h-[18px] mt-0.5 flex-shrink-0 cursor-pointer accent-gold"
-                  />
-                  <label htmlFor="privacy" className="text-xs md:text-sm text-slate-800 cursor-pointer leading-snug">
-                    개인정보 수집·이용에 동의합니다 <span className="text-red-500">*</span>
-                    <button
-                      type="button"
-                      onClick={() => setShowPrivacy(!showPrivacy)}
-                      className="text-gold underline text-[11px] md:text-[13px] ml-1 bg-transparent border-none cursor-pointer"
-                    >
-                      내용보기
-                    </button>
-                  </label>
+              {/* Step 3: 연락처 입력 */}
+              <div className={`wz-panel ${step === 3 ? "active" : ""}`}>
+                <div className="wz-row">
+                  <div>
+                    <label className="wz-label">
+                      대표자명 <span className="wz-req">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="wz-input"
+                      name="name"
+                      required
+                      value={formData.name}
+                      onChange={(e) => updateField("name", e.target.value)}
+                      onFocus={() => handleFieldFocus("name")}
+                    />
+                  </div>
+                  <div>
+                    <label className="wz-label">
+                      연락처 <span className="wz-req">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      className="wz-input"
+                      name="phone"
+                      placeholder="010-0000-0000"
+                      required
+                      value={formData.phone}
+                      onChange={(e) =>
+                        updateField("phone", formatPhone(e.target.value))
+                      }
+                      onFocus={() => handleFieldFocus("phone")}
+                    />
+                  </div>
                 </div>
-                {showPrivacy && (
-                  <div className="mt-3 md:mt-4 p-2 md:p-3 bg-white/90 border border-slate-200 rounded text-[11px] md:text-[13px] text-slate-500 leading-relaxed max-h-[120px] md:max-h-[150px] overflow-y-auto">
-                    <p>1. 수집항목: 기업명, 사업자번호, 대표자명, 연락처, 이메일, 문의내용</p>
-                    <p>2. 수집목적: 정책자금 상담 및 지원 서비스 제공</p>
-                    <p>3. 보유기간: 서비스 종료 후 3년</p>
-                    <p>4. 동의 거부 시 서비스 이용이 제한될 수 있습니다.</p>
+                <div className="wz-row">
+                  <div>
+                    <label className="wz-label">
+                      이메일 <span className="wz-req">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      className="wz-input"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => updateField("email", e.target.value)}
+                      onFocus={() => handleFieldFocus("email")}
+                    />
+                  </div>
+                  <div>
+                    <label className="wz-label">
+                      통화 가능 시간 <span className="wz-req">*</span>
+                    </label>
+                    <select
+                      className="wz-input"
+                      name="consultTime"
+                      required
+                      value={formData.consultTime}
+                      onChange={(e) =>
+                        updateField("consultTime", e.target.value)
+                      }
+                      onFocus={() => handleFieldFocus("consultTime")}
+                    >
+                      <option value="">선택하세요</option>
+                      {CONSULT_TIMES.map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="wz-row full">
+                  <div>
+                    <label className="wz-label">문의사항</label>
+                    <textarea
+                      className="wz-input"
+                      name="message"
+                      placeholder="자금 용도나 현재 상황, 궁금한 점을 간단히 남겨주세요"
+                      value={formData.message}
+                      onChange={(e) => updateField("message", e.target.value)}
+                      onFocus={() => handleFieldFocus("message")}
+                    />
+                  </div>
+                </div>
+
+                <div className="wz-privacy">
+                  <h4 className="wz-privacy-title">
+                    개인정보 수집 및 이용 동의
+                  </h4>
+                  <div className="wz-privacy-check">
+                    <input
+                      type="checkbox"
+                      id="privacy"
+                      name="privacy"
+                      required
+                    />
+                    <label htmlFor="privacy">
+                      개인정보 수집 및 이용에 동의합니다{" "}
+                      <span className="wz-req">*</span>
+                      <button
+                        type="button"
+                        className="wz-privacy-link"
+                        onClick={() => setShowPrivacy(!showPrivacy)}
+                      >
+                        내용보기
+                      </button>
+                    </label>
+                  </div>
+                  {showPrivacy && (
+                    <div className="wz-privacy-content">
+                      <p>
+                        1. 수집항목: 기업명, 사업자번호, 대표자명, 연락처,
+                        이메일, 문의내용
+                      </p>
+                      <p>2. 수집목적: 정책자금 상담 및 지원 서비스 제공</p>
+                      <p>3. 보유기간: 서비스 종료 후 3년</p>
+                      <p>4. 동의 거부 시 서비스 이용이 제한될 수 있습니다.</p>
+                    </div>
+                  )}
+                </div>
+
+                {status === "success" && (
+                  <div className="wz-msg success">
+                    상담 신청이 성공적으로 접수되었습니다! 빠른 시일 내
+                    연락드리겠습니다.
                   </div>
                 )}
-              </div>
+                {status === "error" && (
+                  <div className="wz-msg error">
+                    신청 중 오류가 발생했습니다. 다시 시도해주세요.
+                  </div>
+                )}
 
-              {/* 성공/실패 메시지 */}
-              {status === 'success' && (
-                <div className="p-4 rounded-lg bg-green-100 text-green-800 border border-green-300 text-center mb-4">
-                  컨설팅 신청이 성공적으로 완료되었습니다!
+                <div className="wz-btns">
+                  <button
+                    type="button"
+                    className="wz-btn wz-btn-prev"
+                    onClick={goPrev}
+                  >
+                    ← 이전
+                  </button>
+                  <button
+                    type="submit"
+                    className="wz-submit"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "신청 중..." : "무료 상담 신청하기"}
+                  </button>
                 </div>
-              )}
-              {status === 'error' && (
-                <div className="p-4 rounded-lg bg-red-100 text-red-800 border border-red-300 text-center mb-4">
-                  신청 처리 중 문제가 발생했습니다. 다시 시도해주세요.
-                </div>
-              )}
-
-              {/* 제출 버튼 */}
-              <div className="text-center">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full md:w-auto gold-gradient-bg text-white py-3 md:py-4 px-6 md:px-12 rounded-lg
-                    text-[15px] md:text-lg font-semibold cursor-pointer transition-all duration-300 relative overflow-hidden
-                    gold-glow hover:gold-glow-hover hover:-translate-y-0.5
-                    disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? '신청 중...' : '무료 상담 신청하기'}
-                </button>
-                <p className="text-[11px] md:text-[13px] text-slate-500 mt-2.5 md:mt-3">
-                  신청 후 트럼프 파트너스 전문가가 24시간 내 연락드립니다
-                </p>
               </div>
             </form>
+          </div>
+
+          {/* Right summary - PC only */}
+          <div className="wz-summary">
+            <div className="wz-sum-title">입력 정보 확인</div>
+
+            <div className="wz-sum-sec">
+              <div className="wz-sum-hdr">
+                <span className="wz-sum-badge">1</span> 기업 정보
+              </div>
+              <div className="wz-sum-row">
+                <span className="wz-sum-label">기업명</span>
+                <span
+                  className={`wz-sum-val ${summaryEmpty(formData.company) ? "empty" : ""}`}
+                >
+                  {summaryValue(formData.company)}
+                </span>
+              </div>
+              <div className="wz-sum-row">
+                <span className="wz-sum-label">사업자번호</span>
+                <span
+                  className={`wz-sum-val ${summaryEmpty(formData.bizno) ? "empty" : ""}`}
+                >
+                  {summaryValue(formData.bizno)}
+                </span>
+              </div>
+              <div className="wz-sum-row">
+                <span className="wz-sum-label">업종</span>
+                <span
+                  className={`wz-sum-val ${summaryEmpty(formData.industry) ? "empty" : ""}`}
+                >
+                  {formData.industry || "미선택"}
+                </span>
+              </div>
+              <div className="wz-sum-row">
+                <span className="wz-sum-label">설립연도</span>
+                <span
+                  className={`wz-sum-val ${summaryEmpty(formData.founded) ? "empty" : ""}`}
+                >
+                  {summaryValue(formData.founded)}
+                </span>
+              </div>
+            </div>
+
+            <div className="wz-sum-sec">
+              <div className="wz-sum-hdr">
+                <span className="wz-sum-badge">2</span> 자금 정보
+              </div>
+              <div className="wz-sum-row">
+                <span className="wz-sum-label">필요 자금</span>
+                <span
+                  className={`wz-sum-val ${summaryEmpty(formData.amount) ? "empty" : ""}`}
+                >
+                  {formData.amount || "미선택"}
+                </span>
+              </div>
+              {selectedFundTypes.length > 0 ? (
+                <div className="wz-sum-tags">
+                  {selectedFundTypes.map((t) => (
+                    <span key={t} className="wz-sum-tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <div className="wz-sum-row">
+                  <span className="wz-sum-label">자금종류</span>
+                  <span className="wz-sum-val empty">미선택</span>
+                </div>
+              )}
+            </div>
+
+            <div className="wz-sum-sec">
+              <div className="wz-sum-hdr">
+                <span className="wz-sum-badge">3</span> 연락처
+              </div>
+              <div className="wz-sum-row">
+                <span className="wz-sum-label">대표자</span>
+                <span
+                  className={`wz-sum-val ${summaryEmpty(formData.name) ? "empty" : ""}`}
+                >
+                  {summaryValue(formData.name)}
+                </span>
+              </div>
+              <div className="wz-sum-row">
+                <span className="wz-sum-label">연락처</span>
+                <span
+                  className={`wz-sum-val ${summaryEmpty(formData.phone) ? "empty" : ""}`}
+                >
+                  {summaryValue(formData.phone)}
+                </span>
+              </div>
+              <div className="wz-sum-row">
+                <span className="wz-sum-label">이메일</span>
+                <span
+                  className={`wz-sum-val ${summaryEmpty(formData.email) ? "empty" : ""}`}
+                >
+                  {summaryValue(formData.email)}
+                </span>
+              </div>
+              <div className="wz-sum-row">
+                <span className="wz-sum-label">통화시간</span>
+                <span
+                  className={`wz-sum-val ${summaryEmpty(formData.consultTime) ? "empty" : ""}`}
+                >
+                  {formData.consultTime || "미선택"}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
-  )
-}
-
-function FormField({
-  label,
-  name,
-  type = 'text',
-  placeholder,
-  required,
-  onFormat,
-  onFocus,
-}: {
-  label: string
-  name: string
-  type?: string
-  placeholder?: string
-  required?: boolean
-  onFormat?: (value: string) => string
-  onFocus?: (fieldName: string) => void
-}) {
-  return (
-    <div>
-      <label className="block text-xs md:text-sm font-semibold text-slate-800 mb-1 md:mb-2">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      <input
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        required={required}
-        onChange={onFormat ? (e) => { e.target.value = onFormat(e.target.value) } : undefined}
-        onFocus={() => onFocus?.(name)}
-        className="w-full h-[38px] md:h-[46px] px-3 md:px-4 text-sm md:text-[15px] text-slate-800 placeholder:text-[#8b7a50] border border-slate-200 rounded-lg bg-white/90
-          focus:outline-none focus:border-gold focus:ring-[3px] focus:ring-gold/10 transition-all"
-      />
-    </div>
-  )
-}
-
-function SelectField({
-  label,
-  name,
-  options,
-  required,
-  onFocus,
-}: {
-  label: string
-  name: string
-  options: string[]
-  required?: boolean
-  onFocus?: (fieldName: string) => void
-}) {
-  const [hasValue, setHasValue] = useState(false)
-
-  return (
-    <div>
-      <label className="block text-xs md:text-sm font-semibold text-slate-800 mb-1 md:mb-2">
-        {label} {required && <span className="text-red-500">*</span>}
-      </label>
-      <select
-        name={name}
-        required={required}
-        onChange={(e) => setHasValue(e.target.value !== '')}
-        onFocus={() => onFocus?.(name)}
-        className={`w-full h-[38px] md:h-[46px] px-3 md:px-4 text-sm md:text-[15px] border border-slate-200 rounded-lg bg-white/90
-          cursor-pointer appearance-none bg-[length:20px] bg-no-repeat bg-[right_12px_center]
-          focus:outline-none focus:border-gold focus:ring-[3px] focus:ring-gold/10 transition-all
-          ${hasValue ? 'text-slate-800' : 'text-[#8b7a50]'}`}
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E")`,
-          paddingRight: '40px',
-        }}
-      >
-        <option value="" className="text-[#8b7a50]">선택하세요</option>
-        {options.map((opt) => (
-          <option key={opt} value={opt} className="text-slate-800">{opt}</option>
-        ))}
-      </select>
-    </div>
-  )
+  );
 }
