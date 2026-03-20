@@ -254,10 +254,12 @@ export default function ConsultForm() {
           display: grid;
           grid-template-columns: 1fr;
           gap: 0;
+          overflow: hidden;
+          border-radius: 16px;
         }
-        @media (min-width: 768px) {
+        @media (min-width: 1024px) {
           .wz-body {
-            grid-template-columns: 280px 1fr 240px;
+            grid-template-columns: 260px 1fr 220px;
           }
         }
 
@@ -269,7 +271,7 @@ export default function ConsultForm() {
           border-radius: 16px 0 0 16px;
           background: linear-gradient(180deg, #111d33 0%, #1b2b4b 100%);
         }
-        @media (min-width: 768px) {
+        @media (min-width: 1024px) {
           .wz-left {
             display: flex;
             flex-direction: column;
@@ -318,7 +320,7 @@ export default function ConsultForm() {
           padding: 32px;
           position: relative;
         }
-        @media (min-width: 768px) {
+        @media (min-width: 1024px) {
           .wz-center {
             border-radius: 0;
             padding: 40px;
@@ -713,7 +715,7 @@ export default function ConsultForm() {
           padding: 28px 24px;
           overflow-y: auto;
         }
-        @media (min-width: 768px) {
+        @media (min-width: 1024px) {
           .wz-summary {
             display: block;
           }
@@ -721,10 +723,10 @@ export default function ConsultForm() {
         .wz-sum-title {
           font-size: 15px;
           font-weight: 700;
-          color: var(--gold-dark, #8b6914);
+          color: #1e293b;
           margin-bottom: 20px;
           padding-bottom: 10px;
-          border-bottom: 2px solid var(--gold, #c9a84c);
+          border-bottom: 2px solid #1e293b;
         }
         .wz-sum-sec {
           margin-bottom: 18px;
@@ -732,7 +734,7 @@ export default function ConsultForm() {
         .wz-sum-hdr {
           font-size: 12px;
           font-weight: 700;
-          color: var(--gold-dark, #8b6914);
+          color: #1e293b;
           margin-bottom: 8px;
           display: flex;
           align-items: center;
@@ -742,7 +744,7 @@ export default function ConsultForm() {
           width: 20px;
           height: 20px;
           border-radius: 50%;
-          background: var(--gold, #c9a84c);
+          background: #1e293b;
           color: #fff;
           font-size: 10px;
           font-weight: 700;
@@ -758,17 +760,17 @@ export default function ConsultForm() {
           border-bottom: 1px solid #f3f4f6;
         }
         .wz-sum-label {
-          color: #6b7280;
+          color: #475569;
         }
         .wz-sum-val {
-          color: #1f2937;
+          color: #111;
           font-weight: 600;
           max-width: 140px;
           text-align: right;
           word-break: break-all;
         }
         .wz-sum-val.empty {
-          color: #d1d5db;
+          color: #94a3b8;
           font-style: italic;
           font-weight: 400;
         }
@@ -783,8 +785,8 @@ export default function ConsultForm() {
           border-radius: 4px;
           font-size: 10px;
           font-weight: 600;
-          background: rgba(201, 168, 76, 0.15);
-          color: var(--gold-dark, #8b6914);
+          background: #e2e8f0;
+          color: #1e293b;
         }
       `}</style>
 
