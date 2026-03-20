@@ -132,7 +132,7 @@ function FundHero() {
   ];
 
   return (
-    <section className="relative w-full pt-[130px] md:pt-[180px] pb-[50px] md:pb-[80px] px-0 overflow-hidden">
+    <section className="relative w-full pt-[130px] md:pt-[180px] pb-[50px] md:pb-[80px] md:min-h-[70vh] px-0 overflow-hidden">
       <YouTubeBackground videoId={HERO_VIDEOS.funding} overlayOpacity={0.88} />
       {/* 플로팅 아이콘 배경 */}
       <div className="absolute inset-0 pointer-events-none z-0">

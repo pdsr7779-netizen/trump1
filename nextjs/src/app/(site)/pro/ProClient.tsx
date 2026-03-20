@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { useEffect, useRef, useState, useCallback } from "react";
 
-import YouTubeBackground from '@/components/YouTubeBackground'
-import { HERO_VIDEOS } from '@/config/hero-videos'
+import YouTubeBackground from "@/components/YouTubeBackground";
+import { HERO_VIDEOS } from "@/config/hero-videos";
 
 /* ──────────────────────────────────────────────
    1. Hero Section – Expert Network
    ────────────────────────────────────────────── */
 function ProHero() {
   return (
-    <section className="relative w-full pb-[40px] md:pb-[40px] pt-[130px] md:pt-[180px] overflow-hidden">
+    <section className="relative w-full pb-[40px] md:pb-[80px] pt-[130px] md:pt-[180px] md:min-h-[70vh] overflow-hidden">
       <YouTubeBackground videoId={HERO_VIDEOS.professional} />
       <div className="max-w-[1200px] mx-auto px-4 md:px-6 relative z-[1]">
         <div className="text-center">
@@ -47,7 +47,7 @@ function ProHero() {
             필요한 분야의 경영컨설팅 전문가를 맞춤형으로 연결합니다
             <br />
             <br />
-            트럼프 파트너스의{' '}
+            트럼프 파트너스의{" "}
             <span className="text-gold font-semibold [text-shadow:0_0_10px_rgba(212,175,55,0.8)]">
               전문가 네트워크
             </span>
@@ -58,118 +58,130 @@ function ProHero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 /* ──────────────────────────────────────────────
    2. Pro Service Section – 전문가 서비스 카드
    ────────────────────────────────────────────── */
 function ProServiceSection() {
-  const gridRef = useRef<HTMLDivElement>(null)
-  const wrapperRef = useRef<HTMLDivElement>(null)
-  const [canScrollPrev, setCanScrollPrev] = useState(false)
-  const [canScrollNext, setCanScrollNext] = useState(true)
+  const gridRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(true);
 
   const expertCards = [
     {
       icon: (
-        <svg viewBox="0 0 24 24" className="w-7 h-7 fill-light drop-shadow-[0_0_3px_rgba(250,248,243,0.5)]">
+        <svg
+          viewBox="0 0 24 24"
+          className="w-7 h-7 fill-light drop-shadow-[0_0_3px_rgba(250,248,243,0.5)]"
+        >
           <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z M12 11.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V8.93l7-3.11v6.17z" />
         </svg>
       ),
-      title: '법무 전문가',
-      items: ['변호사 네트워크', '법률 자문 및 위험 검토', '계약 구조 최적화'],
-      services: ['법률 검토', '계약 관리', '리스크 관리', '자문 서비스'],
+      title: "법무 전문가",
+      items: ["변호사 네트워크", "법률 자문 및 위험 검토", "계약 구조 최적화"],
+      services: ["법률 검토", "계약 관리", "리스크 관리", "자문 서비스"],
     },
     {
       icon: (
-        <svg viewBox="0 0 24 24" className="w-7 h-7 fill-light drop-shadow-[0_0_3px_rgba(250,248,243,0.5)]">
+        <svg
+          viewBox="0 0 24 24"
+          className="w-7 h-7 fill-light drop-shadow-[0_0_3px_rgba(250,248,243,0.5)]"
+        >
           <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
         </svg>
       ),
-      title: '세무 전문가',
-      items: ['세무사 네트워크', '세무 전략 및 절세 계획', '세무 리스크 관리'],
-      services: ['절세 전략', '세무 자문', '세무 신고', '리스크 관리'],
+      title: "세무 전문가",
+      items: ["세무사 네트워크", "세무 전략 및 절세 계획", "세무 리스크 관리"],
+      services: ["절세 전략", "세무 자문", "세무 신고", "리스크 관리"],
     },
     {
       icon: (
-        <svg viewBox="0 0 24 24" className="w-7 h-7 fill-light drop-shadow-[0_0_3px_rgba(250,248,243,0.5)]">
+        <svg
+          viewBox="0 0 24 24"
+          className="w-7 h-7 fill-light drop-shadow-[0_0_3px_rgba(250,248,243,0.5)]"
+        >
           <path d="M9 3V1h6v2H9zM11 21h2V8h-2v13zM17.5 11.5L19 13l-6 6-4.5-4.5L10 13l3 3 4.5-4.5z" />
         </svg>
       ),
-      title: '회계 전문가',
-      items: ['회계사 네트워크', '재무제표 검토 및 분석', '재무 컨설팅'],
-      services: ['회계 감시', '재무 분석', '재무 계획', '내부 감시'],
+      title: "회계 전문가",
+      items: ["회계사 네트워크", "재무제표 검토 및 분석", "재무 컨설팅"],
+      services: ["회계 감시", "재무 분석", "재무 계획", "내부 감시"],
     },
     {
       icon: (
-        <svg viewBox="0 0 24 24" className="w-7 h-7 fill-light drop-shadow-[0_0_3px_rgba(250,248,243,0.5)]">
+        <svg
+          viewBox="0 0 24 24"
+          className="w-7 h-7 fill-light drop-shadow-[0_0_3px_rgba(250,248,243,0.5)]"
+        >
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
         </svg>
       ),
-      title: '노무 전문가',
-      items: ['공인노무사 네트워크', '인사노무 컨설팅', '근로계약 관리'],
-      services: ['노무 관리', '임금 설계', '노동분쟁', '4대보험'],
+      title: "노무 전문가",
+      items: ["공인노무사 네트워크", "인사노무 컨설팅", "근로계약 관리"],
+      services: ["노무 관리", "임금 설계", "노동분쟁", "4대보험"],
     },
-  ]
+  ];
 
   // 스크롤 상태 체크
   const checkScroll = useCallback(() => {
-    const grid = gridRef.current
-    if (!grid) return
-    const scrollLeft = grid.scrollLeft
-    const maxScroll = grid.scrollWidth - grid.clientWidth
-    setCanScrollPrev(scrollLeft > 10)
-    setCanScrollNext(scrollLeft < maxScroll - 10)
-  }, [])
+    const grid = gridRef.current;
+    if (!grid) return;
+    const scrollLeft = grid.scrollLeft;
+    const maxScroll = grid.scrollWidth - grid.clientWidth;
+    setCanScrollPrev(scrollLeft > 10);
+    setCanScrollNext(scrollLeft < maxScroll - 10);
+  }, []);
 
   // 모바일 스크롤 네비게이션
-  const scrollBy = useCallback((direction: 'prev' | 'next') => {
-    const grid = gridRef.current
-    if (!grid) return
-    const cards = grid.querySelectorAll<HTMLElement>('.expert-card')
-    if (!cards.length) return
-    const cardWidth = cards[0].offsetWidth + 16
+  const scrollBy = useCallback((direction: "prev" | "next") => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const cards = grid.querySelectorAll<HTMLElement>(".expert-card");
+    if (!cards.length) return;
+    const cardWidth = cards[0].offsetWidth + 16;
     grid.scrollBy({
-      left: direction === 'next' ? cardWidth : -cardWidth,
-      behavior: 'smooth',
-    })
-  }, [])
+      left: direction === "next" ? cardWidth : -cardWidth,
+      behavior: "smooth",
+    });
+  }, []);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    if (typeof window === "undefined") return;
 
-    const grid = gridRef.current
-    if (!grid) return
+    const grid = gridRef.current;
+    if (!grid) return;
 
     // 스포트라이트 마우스 트래킹 (데스크톱)
     if (window.innerWidth > 768) {
-      const cards = grid.querySelectorAll<HTMLElement>('.expert-card')
+      const cards = grid.querySelectorAll<HTMLElement>(".expert-card");
       cards.forEach((card) => {
         const onMove = (e: MouseEvent) => {
-          const rect = card.getBoundingClientRect()
-          card.style.setProperty('--mx', `${e.clientX - rect.left}px`)
-          card.style.setProperty('--my', `${e.clientY - rect.top}px`)
-        }
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+          card.style.setProperty("--my", `${e.clientY - rect.top}px`);
+        };
         const onLeave = () => {
-          card.style.removeProperty('--mx')
-          card.style.removeProperty('--my')
-        }
-        card.addEventListener('mousemove', onMove)
-        card.addEventListener('mouseleave', onLeave)
-      })
+          card.style.removeProperty("--mx");
+          card.style.removeProperty("--my");
+        };
+        card.addEventListener("mousemove", onMove);
+        card.addEventListener("mouseleave", onLeave);
+      });
     }
 
     // 스크롤 이벤트
-    grid.addEventListener('scroll', checkScroll)
-    checkScroll()
-    window.addEventListener('resize', checkScroll)
+    grid.addEventListener("scroll", checkScroll);
+    checkScroll();
+    window.addEventListener("resize", checkScroll);
 
     return () => {
-      grid.removeEventListener('scroll', checkScroll)
-      window.removeEventListener('resize', checkScroll)
-    }
-  }, [checkScroll])
+      grid.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [checkScroll]);
 
   return (
     <section className="relative w-full overflow-hidden bg-navy z-[3]">
@@ -202,7 +214,11 @@ function ProServiceSection() {
               ref={gridRef}
               className="grid grid-cols-2 gap-6
                 max-md:flex max-md:gap-4 max-md:overflow-x-auto max-md:snap-x max-md:snap-mandatory max-md:px-5 max-md:pt-2.5 max-md:pb-5 max-md:mb-0"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch' }}
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+                WebkitOverflowScrolling: "touch",
+              }}
             >
               {expertCards.map((card, i) => (
                 <div
@@ -218,7 +234,7 @@ function ProServiceSection() {
                     className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0 blur-[10px] rounded-[inherit]"
                     style={{
                       background:
-                        'radial-gradient(circle 150px at var(--mx, 50%) var(--my, 50%), rgba(250,248,243,0.3), rgba(212,175,55,0.25) 40%, rgba(139,111,63,0.15) 60%, transparent 100%)',
+                        "radial-gradient(circle 150px at var(--mx, 50%) var(--my, 50%), rgba(250,248,243,0.3), rgba(212,175,55,0.25) 40%, rgba(139,111,63,0.15) 60%, transparent 100%)",
                     }}
                   />
 
@@ -278,26 +294,32 @@ function ProServiceSection() {
 
             {/* 모바일 스크롤 네비게이션 버튼 */}
             <button
-              onClick={() => scrollBy('prev')}
+              onClick={() => scrollBy("prev")}
               className={`hidden max-md:flex absolute top-1/2 left-[5px] -translate-y-1/2 w-9 h-9 rounded-full items-center justify-center cursor-pointer transition-all duration-300 z-10
                 bg-[rgba(212,175,55,0.1)] backdrop-blur-[10px] border border-[rgba(212,175,55,0.3)] shadow-[0_0_15px_rgba(212,175,55,0.3)]
                 hover:bg-[rgba(212,175,55,0.2)] hover:shadow-[0_0_20px_rgba(212,175,55,0.5)]
-                ${!canScrollPrev ? 'opacity-0 pointer-events-none' : ''}`}
+                ${!canScrollPrev ? "opacity-0 pointer-events-none" : ""}`}
               aria-label="이전 카드"
             >
-              <svg viewBox="0 0 24 24" className="w-5 h-5 fill-gold drop-shadow-[0_0_3px_rgba(212,175,55,0.8)]">
+              <svg
+                viewBox="0 0 24 24"
+                className="w-5 h-5 fill-gold drop-shadow-[0_0_3px_rgba(212,175,55,0.8)]"
+              >
                 <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
               </svg>
             </button>
             <button
-              onClick={() => scrollBy('next')}
+              onClick={() => scrollBy("next")}
               className={`hidden max-md:flex absolute top-1/2 right-[5px] -translate-y-1/2 w-9 h-9 rounded-full items-center justify-center cursor-pointer transition-all duration-300 z-10
                 bg-[rgba(212,175,55,0.1)] backdrop-blur-[10px] border border-[rgba(212,175,55,0.3)] shadow-[0_0_15px_rgba(212,175,55,0.3)]
                 hover:bg-[rgba(212,175,55,0.2)] hover:shadow-[0_0_20px_rgba(212,175,55,0.5)]
-                ${!canScrollNext ? 'opacity-0 pointer-events-none' : ''}`}
+                ${!canScrollNext ? "opacity-0 pointer-events-none" : ""}`}
               aria-label="다음 카드"
             >
-              <svg viewBox="0 0 24 24" className="w-5 h-5 fill-gold drop-shadow-[0_0_3px_rgba(212,175,55,0.8)]">
+              <svg
+                viewBox="0 0 24 24"
+                className="w-5 h-5 fill-gold drop-shadow-[0_0_3px_rgba(212,175,55,0.8)]"
+              >
                 <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
               </svg>
             </button>
@@ -325,145 +347,178 @@ function ProServiceSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 /* ──────────────────────────────────────────────
    3. Pro Process Section – 전문서비스 프로세스
    ────────────────────────────────────────────── */
 function ProProcessSection() {
-  const [activeStep, setActiveStep] = useState(0)
-  const stepsRef = useRef<HTMLDivElement>(null)
-  const swipeRef = useRef<HTMLDivElement>(null)
-  const startXRef = useRef(0)
-  const isDraggingRef = useRef(false)
+  const [activeStep, setActiveStep] = useState(0);
+  const stepsRef = useRef<HTMLDivElement>(null);
+  const swipeRef = useRef<HTMLDivElement>(null);
+  const startXRef = useRef(0);
+  const isDraggingRef = useRef(false);
 
   const steps = [
     {
       icon: (
-        <svg className="w-10 h-10 fill-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]" viewBox="0 0 24 24">
+        <svg
+          className="w-10 h-10 fill-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]"
+          viewBox="0 0 24 24"
+        >
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
         </svg>
       ),
-      title: '기업 역량 분석',
-      items: ['정책자금 신청 자격 검토', '기업의 자금조달 강점 분석', '필요한 경영컨설팅 영역 파악', '개선 목표 및 일정 수립'],
+      title: "기업 역량 분석",
+      items: [
+        "정책자금 신청 자격 검토",
+        "기업의 자금조달 강점 분석",
+        "필요한 경영컨설팅 영역 파악",
+        "개선 목표 및 일정 수립",
+      ],
     },
     {
       icon: (
-        <svg className="w-10 h-10 fill-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]" viewBox="0 0 24 24">
+        <svg
+          className="w-10 h-10 fill-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]"
+          viewBox="0 0 24 24"
+        >
           <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z" />
         </svg>
       ),
-      title: '전문가 매칭',
-      items: ['법무, 세무, 회계, 노무 전문가', '기업 맞춤형 경영컨설팅 구성', '자금조달 역량 강화 커리큘럼', '서비스 범위 및 일정 확정'],
+      title: "전문가 매칭",
+      items: [
+        "법무, 세무, 회계, 노무 전문가",
+        "기업 맞춤형 경영컨설팅 구성",
+        "자금조달 역량 강화 커리큘럼",
+        "서비스 범위 및 일정 확정",
+      ],
     },
     {
       icon: (
-        <svg className="w-10 h-10 fill-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]" viewBox="0 0 24 24">
+        <svg
+          className="w-10 h-10 fill-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]"
+          viewBox="0 0 24 24"
+        >
           <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z" />
         </svg>
       ),
-      title: '역량강화 실행',
-      items: ['맞춤형 코칭 시행', '통합 코디네이션 관리', '주간/월간 진행상황 점검', '실시간 이슈 처리 및 개선'],
+      title: "역량강화 실행",
+      items: [
+        "맞춤형 코칭 시행",
+        "통합 코디네이션 관리",
+        "주간/월간 진행상황 점검",
+        "실시간 이슈 처리 및 개선",
+      ],
     },
     {
       icon: (
-        <svg className="w-10 h-10 fill-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]" viewBox="0 0 24 24">
+        <svg
+          className="w-10 h-10 fill-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]"
+          viewBox="0 0 24 24"
+        >
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
         </svg>
       ),
-      title: '완성 및 사후관리',
-      items: ['최종 역량 평가 및 결과 검증', '정책자금 신청 준비 완료 확인', '지속적 자금조달 지원 체계', '심사통과 후 사후관리 및 피드백'],
+      title: "완성 및 사후관리",
+      items: [
+        "최종 역량 평가 및 결과 검증",
+        "정책자금 신청 준비 완료 확인",
+        "지속적 자금조달 지원 체계",
+        "심사통과 후 사후관리 및 피드백",
+      ],
     },
-  ]
+  ];
 
   const trustItems = [
-    '418+ 성공 기업 수',
-    '전문가 맞춤 매칭',
-    '체계적인 프로세스',
-    '투명한 비용 체계',
-    '성공 후 사후관리',
-    '기업정보 철저 보안',
-  ]
+    "418+ 성공 기업 수",
+    "전문가 맞춤 매칭",
+    "체계적인 프로세스",
+    "투명한 비용 체계",
+    "성공 후 사후관리",
+    "기업정보 철저 보안",
+  ];
 
   const goToStep = useCallback(
     (index: number) => {
-      if (index < 0 || index >= steps.length) return
-      setActiveStep(index)
+      if (index < 0 || index >= steps.length) return;
+      setActiveStep(index);
     },
-    [steps.length]
-  )
+    [steps.length],
+  );
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    if (typeof window === "undefined") return;
 
     // 스포트라이트 마우스 트래킹 (데스크톱)
     if (window.innerWidth > 768) {
-      const contents = stepsRef.current?.querySelectorAll<HTMLElement>('.step-content-card')
+      const contents =
+        stepsRef.current?.querySelectorAll<HTMLElement>(".step-content-card");
       contents?.forEach((content) => {
         const onMove = (e: MouseEvent) => {
-          const rect = content.getBoundingClientRect()
-          content.style.setProperty('--mx', `${e.clientX - rect.left}px`)
-          content.style.setProperty('--my', `${e.clientY - rect.top}px`)
-        }
+          const rect = content.getBoundingClientRect();
+          content.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+          content.style.setProperty("--my", `${e.clientY - rect.top}px`);
+        };
         const onLeave = () => {
-          content.style.removeProperty('--mx')
-          content.style.removeProperty('--my')
-        }
-        content.addEventListener('mousemove', onMove)
-        content.addEventListener('mouseleave', onLeave)
-      })
+          content.style.removeProperty("--mx");
+          content.style.removeProperty("--my");
+        };
+        content.addEventListener("mousemove", onMove);
+        content.addEventListener("mouseleave", onLeave);
+      });
 
       // CTA 버튼 스포트라이트
-      const ctaBtn = document.querySelector<HTMLElement>('.cta-primary-btn')
+      const ctaBtn = document.querySelector<HTMLElement>(".cta-primary-btn");
       if (ctaBtn) {
         const onMove = (e: MouseEvent) => {
-          const rect = ctaBtn.getBoundingClientRect()
-          ctaBtn.style.setProperty('--mx', `${e.clientX - rect.left}px`)
-          ctaBtn.style.setProperty('--my', `${e.clientY - rect.top}px`)
-        }
-        ctaBtn.addEventListener('mousemove', onMove)
-        ctaBtn.addEventListener('mouseleave', () => {
-          ctaBtn.style.removeProperty('--mx')
-          ctaBtn.style.removeProperty('--my')
-        })
+          const rect = ctaBtn.getBoundingClientRect();
+          ctaBtn.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+          ctaBtn.style.setProperty("--my", `${e.clientY - rect.top}px`);
+        };
+        ctaBtn.addEventListener("mousemove", onMove);
+        ctaBtn.addEventListener("mouseleave", () => {
+          ctaBtn.style.removeProperty("--mx");
+          ctaBtn.style.removeProperty("--my");
+        });
       }
     }
 
     // 모바일 스와이프
-    const wrapper = swipeRef.current
+    const wrapper = swipeRef.current;
     if (window.innerWidth <= 768 && wrapper) {
       const onTouchStart = (e: TouchEvent) => {
-        startXRef.current = e.touches[0].clientX
-        isDraggingRef.current = true
-      }
+        startXRef.current = e.touches[0].clientX;
+        isDraggingRef.current = true;
+      };
       const onTouchMove = (e: TouchEvent) => {
-        if (!isDraggingRef.current) return
-        e.preventDefault()
-      }
+        if (!isDraggingRef.current) return;
+        e.preventDefault();
+      };
       const onTouchEnd = (e: TouchEvent) => {
-        if (!isDraggingRef.current) return
-        isDraggingRef.current = false
-        const endX = e.changedTouches[0].clientX
-        const diff = startXRef.current - endX
+        if (!isDraggingRef.current) return;
+        isDraggingRef.current = false;
+        const endX = e.changedTouches[0].clientX;
+        const diff = startXRef.current - endX;
         if (Math.abs(diff) > 50) {
           if (diff > 0 && activeStep < steps.length - 1) {
-            goToStep(activeStep + 1)
+            goToStep(activeStep + 1);
           } else if (diff < 0 && activeStep > 0) {
-            goToStep(activeStep - 1)
+            goToStep(activeStep - 1);
           }
         }
-      }
-      wrapper.addEventListener('touchstart', onTouchStart)
-      wrapper.addEventListener('touchmove', onTouchMove, { passive: false })
-      wrapper.addEventListener('touchend', onTouchEnd)
+      };
+      wrapper.addEventListener("touchstart", onTouchStart);
+      wrapper.addEventListener("touchmove", onTouchMove, { passive: false });
+      wrapper.addEventListener("touchend", onTouchEnd);
       return () => {
-        wrapper.removeEventListener('touchstart', onTouchStart)
-        wrapper.removeEventListener('touchmove', onTouchMove)
-        wrapper.removeEventListener('touchend', onTouchEnd)
-      }
+        wrapper.removeEventListener("touchstart", onTouchStart);
+        wrapper.removeEventListener("touchmove", onTouchMove);
+        wrapper.removeEventListener("touchend", onTouchEnd);
+      };
     }
-  }, [activeStep, goToStep, steps.length])
+  }, [activeStep, goToStep, steps.length]);
 
   return (
     <section className="relative w-full bg-navy overflow-visible z-[3]">
@@ -491,7 +546,8 @@ function ProProcessSection() {
               4단계 경영컨설팅 코칭 프로세스
             </p>
             <p className="text-[12px] md:text-sm text-[rgba(232,212,168,0.8)] mt-4 leading-[1.6]">
-              ※ 트럼프 파트너스는 역량 평가 및 현황분석, 컨설팅 및 자문, 서류 준비 지원을 제공하지 않습니다.
+              ※ 트럼프 파트너스는 역량 평가 및 현황분석, 컨설팅 및 자문, 서류
+              준비 지원을 제공하지 않습니다.
               <br />
               대표님의 역량 강화를 위한 정보 제공 및 코칭 서비스를 제공합니다.
             </p>
@@ -506,8 +562,8 @@ function ProProcessSection() {
                 className={`py-3 px-2.5 rounded-[10px] text-[11px] sm:text-[13px] font-semibold text-center cursor-pointer transition-all duration-300 border
                   ${
                     activeStep === i
-                      ? 'bg-gradient-to-br from-gold-dark to-gold border-transparent text-light shadow-[0_0_20px_rgba(212,175,55,0.5)]'
-                      : 'bg-[rgba(15,23,42,0.5)] border-[rgba(212,175,55,0.4)] text-[rgba(255,255,255,0.7)]'
+                      ? "bg-gradient-to-br from-gold-dark to-gold border-transparent text-light shadow-[0_0_20px_rgba(212,175,55,0.5)]"
+                      : "bg-[rgba(15,23,42,0.5)] border-[rgba(212,175,55,0.4)] text-[rgba(255,255,255,0.7)]"
                   }`}
               >
                 STEP {i + 1}
@@ -526,7 +582,10 @@ function ProProcessSection() {
             />
 
             {/* 스와이프 래퍼 */}
-            <div ref={swipeRef} className="overflow-hidden relative w-full max-md:min-h-[240px]">
+            <div
+              ref={swipeRef}
+              className="overflow-hidden relative w-full max-md:min-h-[240px]"
+            >
               <div
                 ref={stepsRef}
                 className="flex justify-between items-start relative z-[2] pt-[80px] overflow-visible
@@ -539,16 +598,29 @@ function ProProcessSection() {
                     className={`flex-1 text-center px-2.5 relative flex flex-col overflow-visible
                       max-md:absolute max-md:top-0 max-md:left-0 max-md:w-full max-md:px-2.5 max-md:flex-col max-md:items-center max-md:justify-center max-md:box-border
                       ${
-                        typeof window !== 'undefined' && window.innerWidth <= 768
+                        typeof window !== "undefined" &&
+                        window.innerWidth <= 768
                           ? activeStep === i
-                            ? 'max-md:flex max-md:opacity-100'
-                            : 'max-md:hidden max-md:opacity-0'
-                          : ''
+                            ? "max-md:flex max-md:opacity-100"
+                            : "max-md:hidden max-md:opacity-0"
+                          : ""
                       }`}
                     style={{
-                      display: typeof window !== 'undefined' && window.innerWidth <= 768 ? (activeStep === i ? 'flex' : 'none') : undefined,
-                      opacity: typeof window !== 'undefined' && window.innerWidth <= 768 ? (activeStep === i ? 1 : 0) : 1,
-                      transition: 'opacity 0.3s ease',
+                      display:
+                        typeof window !== "undefined" &&
+                        window.innerWidth <= 768
+                          ? activeStep === i
+                            ? "flex"
+                            : "none"
+                          : undefined,
+                      opacity:
+                        typeof window !== "undefined" &&
+                        window.innerWidth <= 768
+                          ? activeStep === i
+                            ? 1
+                            : 0
+                          : 1,
+                      transition: "opacity 0.3s ease",
                     }}
                   >
                     {/* 스텝 번호 (데스크톱) */}
@@ -579,12 +651,14 @@ function ProProcessSection() {
                         className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none z-0 blur-[10px] rounded-[inherit]"
                         style={{
                           background:
-                            'radial-gradient(circle 150px at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.3), rgba(232,212,168,0.25) 40%, rgba(212,175,55,0.15) 60%, transparent 100%)',
+                            "radial-gradient(circle 150px at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.3), rgba(232,212,168,0.25) 40%, rgba(212,175,55,0.15) 60%, transparent 100%)",
                         }}
                       />
 
                       {/* 아이콘 (데스크톱) */}
-                      <div className="hidden md:block mx-auto mb-4 relative z-[1]">{step.icon}</div>
+                      <div className="hidden md:block mx-auto mb-4 relative z-[1]">
+                        {step.icon}
+                      </div>
 
                       {/* 타이틀 */}
                       <h3
@@ -639,7 +713,9 @@ function ProProcessSection() {
                       bg-[rgba(30,80,140,0.35)] border border-[rgba(212,175,55,0.5)]
                       hover:bg-[rgba(40,100,160,0.45)] hover:border-gold hover:-translate-y-[3px] hover:shadow-[0_5px_20px_rgba(212,175,55,0.3)]"
                   >
-                    <span className="text-gold font-bold text-xl flex-shrink-0">&#10003;</span>
+                    <span className="text-gold font-bold text-xl flex-shrink-0">
+                      &#10003;
+                    </span>
                     {item}
                   </div>
                 ))}
@@ -677,7 +753,7 @@ function ProProcessSection() {
                   className="absolute inset-0 opacity-100 pointer-events-none z-0 blur-[8px] rounded-[inherit]"
                   style={{
                     background:
-                      'radial-gradient(circle 80px at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.4), rgba(232,212,168,0.3) 40%, rgba(212,175,55,0.2) 60%, transparent 100%)',
+                      "radial-gradient(circle 80px at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.4), rgba(232,212,168,0.3) 40%, rgba(212,175,55,0.2) 60%, transparent 100%)",
                   }}
                 />
                 <span className="relative z-[1]">전문가 매칭 신청</span>
@@ -699,7 +775,7 @@ function ProProcessSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 /* ──────────────────────────────────────────────
@@ -711,7 +787,6 @@ export default function ProClient() {
       <ProHero />
       <ProServiceSection />
       <ProProcessSection />
-
     </>
-  )
+  );
 }

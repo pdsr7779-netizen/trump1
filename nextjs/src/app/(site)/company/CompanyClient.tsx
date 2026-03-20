@@ -10,7 +10,7 @@ import { HERO_VIDEOS } from "@/config/hero-videos";
    ────────────────────────────────────────────── */
 function CompanyHero() {
   return (
-    <section className="relative w-full min-h-[50vh] md:min-h-[60vh] lg:min-h-[70vh] flex items-center justify-center px-4 md:px-10 pt-[130px] md:pt-[180px] pb-[60px] md:pb-[80px] lg:pb-[100px] overflow-hidden">
+    <section className="relative w-full min-h-[50vh] md:min-h-[70vh] flex items-center justify-center px-4 md:px-10 pt-[130px] md:pt-[180px] pb-[60px] md:pb-[80px] overflow-hidden">
       <YouTubeBackground videoId={HERO_VIDEOS.about} />
       {/* 타이틀 */}
       <div className="relative z-[2] max-w-[1200px] mx-auto text-center animate-fade-up">
