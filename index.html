@@ -210,13 +210,9 @@
         }
       }
 
-      /* ===== HEADER (원본) ===== */
+      /* ===== HEADER (PC 메뉴바 + 모바일 숨김) ===== */
       .site-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 9999;
+        position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
         background: rgba(27, 43, 75, 0.95);
         border-bottom: 1px solid rgba(201, 168, 76, 0.3);
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
@@ -229,187 +225,57 @@
         box-shadow: 0 0 30px rgba(201, 168, 76, 0.2);
       }
       .header-inner {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 70px;
+        max-width: 1400px; margin: 0 auto; padding: 0 20px;
+        display: flex; justify-content: space-between; align-items: center;
+        height: 60px;
       }
-      @media (min-width: 768px) {
-        .header-inner {
-          padding: 0 40px;
-          height: 80px;
-        }
-      }
-      @media (min-width: 1024px) {
-        .header-inner {
-          height: 90px;
-        }
-      }
+      @media (min-width: 768px) { .header-inner { padding: 0 40px; height: 80px; } }
+      @media (min-width: 1024px) { .header-inner { height: 90px; } }
 
-      .logo-link {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        z-index: 10001;
-      }
-      .logo-link img {
-        width: 32px;
-        height: 32px;
-        object-fit: contain;
-      }
-      @media (min-width: 768px) {
-        .logo-link img {
-          width: 36px;
-          height: 36px;
-        }
-      }
-      @media (min-width: 1024px) {
-        .logo-link img {
-          width: 40px;
-          height: 40px;
-        }
-      }
-      .logo-text {
-        font-size: 18px;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        white-space: nowrap;
-      }
-      @media (min-width: 768px) {
-        .logo-text {
-          font-size: 22px;
-        }
-      }
-      @media (min-width: 1024px) {
-        .logo-text {
-          font-size: 24px;
-        }
-      }
+      .logo-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+      .logo-link img { width: 32px; height: 32px; object-fit: contain; }
+      @media (min-width: 768px) { .logo-link img { width: 36px; height: 36px; } }
+      @media (min-width: 1024px) { .logo-link img { width: 40px; height: 40px; } }
+      .logo-text { font-size: 18px; font-weight: 700; letter-spacing: -0.5px; white-space: nowrap; }
+      @media (min-width: 768px) { .logo-text { font-size: 22px; } }
+      @media (min-width: 1024px) { .logo-text { font-size: 24px; } }
 
-      .hamburger {
-        width: 44px;
-        height: 44px;
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        z-index: 10001;
-        position: relative;
+      /* PC 메뉴바 */
+      .header-nav { display: none; list-style: none; align-items: center; gap: 4px; }
+      @media (min-width: 768px) { .header-nav { display: flex; gap: 6px; } }
+      @media (min-width: 1024px) { .header-nav { gap: 8px; } }
+      .header-nav a {
+        color: var(--body-text); text-decoration: none; font-size: 14px; font-weight: 500;
+        padding: 8px 14px; border-radius: 8px; transition: all 0.2s; white-space: nowrap;
       }
-      .hamburger span {
-        position: absolute;
-        left: 10px;
-        width: 24px;
-        height: 2px;
-        border-radius: 1px;
-        background: white;
-        transition: all 0.3s ease;
-      }
-      .hamburger span:nth-child(1) {
-        top: 14px;
-      }
-      .hamburger span:nth-child(2) {
-        top: 21px;
-      }
-      .hamburger span:nth-child(3) {
-        top: 28px;
-      }
-      .hamburger.open span:nth-child(1) {
-        top: 21px;
-        transform: rotate(45deg);
-        background: var(--gold);
-      }
-      .hamburger.open span:nth-child(2) {
-        opacity: 0;
-        transform: scaleX(0);
-      }
-      .hamburger.open span:nth-child(3) {
-        top: 21px;
-        transform: rotate(-45deg);
-        background: var(--gold);
-      }
+      @media (min-width: 1024px) { .header-nav a { font-size: 15px; padding: 8px 18px; } }
+      .header-nav a:hover { color: var(--gold); background: rgba(201, 168, 76, 0.1); }
+      .header-nav a.active { color: var(--gold); font-weight: 700; }
 
-      .fullscreen-menu {
-        position: fixed;
-        inset: 0;
-        z-index: 10000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(
-          135deg,
-          #1b2b4b 0%,
-          #243759 50%,
-          #1b2b4b 100%
-        );
-        transform: translateY(-100%);
-        transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
+      /* 헤더 CTA 버튼 */
+      .header-cta {
+        display: none; padding: 8px 20px; border-radius: 8px; font-size: 13px; font-weight: 700;
+        color: white; text-decoration: none; transition: all 0.2s; white-space: nowrap;
+      }
+      @media (min-width: 768px) { .header-cta { display: inline-block; } }
+      .header-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(201, 168, 76, 0.4); }
+
+      /* 모바일 헤더는 로고만 */
+      @media (max-width: 767px) { .site-header { display: none; /* 모바일은 하단바만 사용 */ } }
+
+      /* ===== YOUTUBE BACKGROUND ===== */
+      .yt-bg-wrap {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        overflow: hidden; z-index: 0;
+      }
+      .yt-bg-wrap::after {
+        content: ''; position: absolute; inset: 0; z-index: 1;
+        background: linear-gradient(180deg, rgba(17,29,51,0.85) 0%, rgba(27,43,75,0.75) 50%, rgba(17,29,51,0.9) 100%);
+      }
+      .yt-bg-wrap iframe {
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        width: 177.78vh; min-width: 100%; height: 100vh; min-height: 100%;
         pointer-events: none;
-      }
-      .fullscreen-menu.open {
-        transform: translateY(0);
-        pointer-events: auto;
-      }
-      .fullscreen-menu nav {
-        width: 100%;
-        max-width: 1400px;
-        padding: 0 20px;
-      }
-      @media (min-width: 768px) {
-        .fullscreen-menu nav {
-          padding: 0 40px;
-        }
-      }
-      .fullscreen-menu ul {
-        list-style: none;
-      }
-      .fullscreen-menu li {
-        overflow: hidden;
-        margin-bottom: 10px;
-      }
-      .fullscreen-menu a {
-        display: inline-block;
-        font-size: 32px;
-        font-weight: 700;
-        color: var(--body-text);
-        text-decoration: none;
-        padding: 8px 0;
-        position: relative;
-        transition: all 0.7s;
-      }
-      @media (min-width: 768px) {
-        .fullscreen-menu a {
-          font-size: 42px;
-        }
-      }
-      @media (min-width: 1024px) {
-        .fullscreen-menu a {
-          font-size: 48px;
-        }
-      }
-      .fullscreen-menu a:hover {
-        color: var(--gold);
-        text-shadow: 0 0 20px rgba(201, 168, 76, 0.8);
-      }
-      .fullscreen-menu a::after {
-        content: "";
-        position: absolute;
-        bottom: 4px;
-        left: 0;
-        width: 0;
-        height: 3px;
-        transition: width 0.3s;
-        background: linear-gradient(to right, var(--gold-dark), var(--gold));
-        box-shadow: 0 0 10px rgba(201, 168, 76, 0.6);
-      }
-      .fullscreen-menu a:hover::after {
-        width: 100%;
-      }
-      .fullscreen-menu a.active {
-        color: var(--gold);
       }
 
       /* ===== HERO (원본 패딩/갭/쉐도우 그대로) ===== */
@@ -2365,34 +2231,37 @@
     </style>
   </head>
   <body>
-    <!-- ===== HEADER ===== -->
+    <!-- ===== HEADER (PC 메뉴바) ===== -->
     <div class="site-header" id="siteHeader">
       <div class="header-inner">
         <a href="#" class="logo-link">
           <img src="로고 복사.png" alt="트럼프 파트너스 로고" />
           <span class="logo-text gold-gradient-text">트럼프 파트너스</span>
         </a>
-        <button class="hamburger" id="hamburgerBtn" aria-label="메뉴 열기">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </div>
-
-    <div class="fullscreen-menu" id="fullscreenMenu">
-      <nav>
-        <ul>
+        <ul class="header-nav">
           <li><a href="#" class="active">홈</a></li>
           <li><a href="#">회사소개</a></li>
           <li><a href="#">진행과정</a></li>
-          <li><a href="#">자금상담</a></li>
+          <li><a href="fund.html">자금상담</a></li>
           <li><a href="#">전문서비스</a></li>
           <li><a href="#">온라인마케팅</a></li>
         </ul>
-      </nav>
+        <a href="tel:1844-1053" class="header-cta gold-gradient-bg"
+          >무료 상담신청</a
+        >
+      </div>
     </div>
 
     <!-- ===== HERO ===== -->
     <section class="hero">
+      <div class="yt-bg-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/t-IvBD_ch14?autoplay=1&mute=1&loop=1&playlist=t-IvBD_ch14&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+          frameborder="0"
+          allow="autoplay"
+          allowfullscreen
+        ></iframe>
+      </div>
       <div class="hero-inner">
         <div class="hero-message glass animate-fade-up">
           <p class="hero-badge text-gold-glow">정부정책자금 전문 기업심사관</p>
@@ -2505,7 +2374,7 @@
         </div>
 
         <div class="hero-cta">
-          <a href="#consult-form" class="cta-btn gold-gradient-bg gold-glow"
+          <a href="tel:1844-1053" class="cta-btn gold-gradient-bg gold-glow"
             >무료 상담신청</a
           >
         </div>
@@ -2766,392 +2635,8 @@
       </div>
     </section>
 
-    <!-- ===== WIZARD FORM ===== -->
-    <section class="wizard-section" id="consult-form">
-      <div class="wizard-container">
-        <div class="wizard-wrapper">
-          <!-- Left: Image -->
-          <div class="wizard-image">
-            <img
-              src="form-side-concept.png"
-              alt="트럼프 파트너스 정부정책자금 자금상담"
-            />
-            <div class="wizard-image-overlay">
-              <h3>
-                기업심사관이 직접 함께하는<br />정부정책자금 자금확보의 길
-              </h3>
-              <p>
-                중소기업·소상공인의 성장 가능성을<br />체계적으로 지원합니다
-              </p>
-              <p style="margin-top: 20px; font-size: 12px; opacity: 0.8">
-                ※ 기업대출알선 서비스가 아닙니다
-              </p>
-            </div>
-          </div>
-
-          <!-- Center: Wizard Form -->
-          <div class="wizard-form-area">
-            <div class="wizard-form-header">
-              <h3 class="wizard-form-title">
-                정부정책자금·정부지원자금<br class="hide-mobile" />자금확보 무료
-                심사 신청
-              </h3>
-              <p class="wizard-form-subtitle">
-                기본 정보 입력 후 맞춤 경영컨설팅 상담을 받아보세요
-              </p>
-            </div>
-
-            <!-- Progress -->
-            <div class="wizard-progress">
-              <div class="wizard-step active" data-step="1">
-                <div class="wizard-step-number">1</div>
-                <div class="wizard-step-label">기업 정보</div>
-              </div>
-              <div class="wizard-step-line"></div>
-              <div class="wizard-step" data-step="2">
-                <div class="wizard-step-number">2</div>
-                <div class="wizard-step-label">자금 정보</div>
-              </div>
-              <div class="wizard-step-line"></div>
-              <div class="wizard-step" data-step="3">
-                <div class="wizard-step-number">3</div>
-                <div class="wizard-step-label">연락처·문의</div>
-              </div>
-            </div>
-
-            <form
-              id="consultForm"
-              onsubmit="
-                event.preventDefault();
-                alert('상담 신청이 완료되었습니다!');
-              "
-            >
-              <!-- Mobile Summary -->
-              <div
-                class="wizard-mobile-summary"
-                id="mobileSummary"
-                style="display: none"
-              >
-                <div class="wizard-mobile-summary-icon">✓</div>
-                <div
-                  class="wizard-mobile-summary-text"
-                  id="mobileSummaryText"
-                ></div>
-              </div>
-
-              <!-- Step 1 -->
-              <div class="wizard-panel active" data-step="1">
-                <div class="wz-row">
-                  <div class="wz-group">
-                    <label class="wz-label"
-                      >기업명 <span class="wz-required">*</span></label
-                    ><input
-                      type="text"
-                      class="wz-control"
-                      name="company"
-                      required
-                    />
-                  </div>
-                  <div class="wz-group">
-                    <label class="wz-label"
-                      >사업자번호 <span class="wz-required">*</span></label
-                    ><input
-                      type="text"
-                      class="wz-control"
-                      name="bizno"
-                      placeholder="000-00-00000"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="wz-row">
-                  <div class="wz-group">
-                    <label class="wz-label">업종</label
-                    ><select class="wz-control" name="industry">
-                      <option value="">선택하세요</option>
-                      <option>제조업</option>
-                      <option>도소매업</option>
-                      <option>서비스업</option>
-                      <option>건설업</option>
-                      <option>IT/소프트웨어</option>
-                      <option>기타</option>
-                    </select>
-                  </div>
-                  <div class="wz-group">
-                    <label class="wz-label">설립연도</label
-                    ><input
-                      type="text"
-                      class="wz-control"
-                      name="founded"
-                      placeholder="2020"
-                    />
-                  </div>
-                </div>
-                <div class="wizard-buttons">
-                  <button
-                    type="button"
-                    class="wizard-btn wizard-btn-next"
-                    onclick="wizardNext()"
-                  >
-                    다음 →
-                  </button>
-                </div>
-              </div>
-
-              <!-- Step 2 -->
-              <div class="wizard-panel" data-step="2">
-                <div class="wz-row full">
-                  <div class="wz-group">
-                    <label class="wz-label">필요 자금 규모</label
-                    ><select class="wz-control" name="amount">
-                      <option value="">선택하세요</option>
-                      <option>5천만원 이하</option>
-                      <option>5천만원 ~ 1억원</option>
-                      <option>1억원 ~ 3억원</option>
-                      <option>3억원 ~ 5억원</option>
-                      <option>5억원 ~ 10억원</option>
-                      <option>10억원 이상</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="wz-fund-group">
-                  <label class="wz-fund-label"
-                    >지원받고 싶은 자금 종류 (복수 선택 가능)</label
-                  >
-                  <div class="wz-fund-options">
-                    <div class="wz-fund-option">
-                      <input
-                        type="checkbox"
-                        id="fund1"
-                        name="fundType"
-                        value="창업자금"
-                      /><label for="fund1">창업자금</label>
-                    </div>
-                    <div class="wz-fund-option">
-                      <input
-                        type="checkbox"
-                        id="fund2"
-                        name="fundType"
-                        value="운전자금"
-                      /><label for="fund2">운전자금</label>
-                    </div>
-                    <div class="wz-fund-option">
-                      <input
-                        type="checkbox"
-                        id="fund3"
-                        name="fundType"
-                        value="시설자금"
-                      /><label for="fund3">시설자금</label>
-                    </div>
-                    <div class="wz-fund-option">
-                      <input
-                        type="checkbox"
-                        id="fund4"
-                        name="fundType"
-                        value="기타자금"
-                      /><label for="fund4">기타자금</label>
-                    </div>
-                  </div>
-                </div>
-                <div class="wizard-buttons">
-                  <button
-                    type="button"
-                    class="wizard-btn wizard-btn-prev"
-                    onclick="wizardPrev()"
-                  >
-                    ← 이전
-                  </button>
-                  <button
-                    type="button"
-                    class="wizard-btn wizard-btn-next"
-                    onclick="wizardNext()"
-                  >
-                    다음 →
-                  </button>
-                </div>
-              </div>
-
-              <!-- Step 3 -->
-              <div class="wizard-panel" data-step="3">
-                <div class="wz-row">
-                  <div class="wz-group">
-                    <label class="wz-label"
-                      >대표자명 <span class="wz-required">*</span></label
-                    ><input
-                      type="text"
-                      class="wz-control"
-                      name="name"
-                      required
-                    />
-                  </div>
-                  <div class="wz-group">
-                    <label class="wz-label"
-                      >연락처 <span class="wz-required">*</span></label
-                    ><input
-                      type="tel"
-                      class="wz-control"
-                      name="phone"
-                      placeholder="010-0000-0000"
-                      required
-                    />
-                  </div>
-                </div>
-                <div class="wz-row">
-                  <div class="wz-group">
-                    <label class="wz-label"
-                      >이메일 <span class="wz-required">*</span></label
-                    ><input
-                      type="email"
-                      class="wz-control"
-                      name="email"
-                      required
-                    />
-                  </div>
-                  <div class="wz-group">
-                    <label class="wz-label"
-                      >통화 가능 시간 <span class="wz-required">*</span></label
-                    ><select class="wz-control" name="consultTime" required>
-                      <option value="">선택하세요</option>
-                      <option>오전 10:00 - 11:00</option>
-                      <option>오전 11:00 - 12:00</option>
-                      <option>오후 14:00 - 15:00</option>
-                      <option>오후 15:00 - 16:00</option>
-                      <option>오후 16:00 - 17:00</option>
-                      <option>오후 17:00 - 18:00</option>
-                      <option>오후 18:00 - 19:00</option>
-                      <option>언제나 가능</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="wz-row full">
-                  <div class="wz-group">
-                    <label class="wz-label">문의사항</label
-                    ><textarea
-                      class="wz-control"
-                      name="message"
-                      placeholder="필요하신 자금의 용도나 현재 경영 상황 등을 간략히 적어주세요"
-                    ></textarea>
-                  </div>
-                </div>
-                <div class="wz-privacy">
-                  <h4 class="wz-privacy-title">개인정보 수집·이용 동의</h4>
-                  <div class="wz-privacy-check">
-                    <input
-                      type="checkbox"
-                      id="privacy"
-                      name="privacy"
-                      required
-                    />
-                    <label for="privacy"
-                      >개인정보 수집·이용에 동의합니다
-                      <span class="wz-required">*</span><br /><span
-                        class="wz-privacy-detail-link"
-                        onclick="
-                          document
-                            .getElementById('privacyContent')
-                            .classList.toggle('show')
-                        "
-                        >*내용보기</span
-                      ></label
-                    >
-                  </div>
-                  <div class="wz-privacy-content" id="privacyContent">
-                    <p>
-                      1. 수집항목: 기업명, 사업자번호, 대표자명, 연락처, 이메일,
-                      문의내용
-                    </p>
-                    <p>2. 수집목적: 자금확보 상담 및 지원 서비스 제공</p>
-                    <p>3. 보유기간: 서비스 종료 후 3년</p>
-                    <p>4. 동의 거부 시 서비스 이용이 제한될 수 있습니다.</p>
-                  </div>
-                </div>
-                <div class="wz-message success" id="successMessage">
-                  상담 신청이 성공적으로 완료되었습니다!
-                </div>
-                <div class="wz-message error" id="errorMessage">
-                  신청 처리 중 문제가 발생했습니다. 다시 시도해주세요.
-                </div>
-                <div class="wizard-buttons">
-                  <button
-                    type="button"
-                    class="wizard-btn wizard-btn-prev"
-                    onclick="wizardPrev()"
-                  >
-                    ← 이전
-                  </button>
-                  <button type="submit" class="wz-submit-btn">상담 신청</button>
-                </div>
-              </div>
-            </form>
-          </div>
-
-          <!-- Right: Summary Panel -->
-          <div class="wizard-summary">
-            <div class="wizard-summary-title">입력 정보 확인</div>
-            <div class="wz-sum-section">
-              <div class="wz-sum-header">
-                <span class="wz-sum-badge">1</span> 기업 정보
-              </div>
-              <div class="wz-sum-row">
-                <span class="wz-sum-label">기업명</span
-                ><span class="wz-sum-value empty" id="sum-company">미입력</span>
-              </div>
-              <div class="wz-sum-row">
-                <span class="wz-sum-label">사업자번호</span
-                ><span class="wz-sum-value empty" id="sum-bizno">미입력</span>
-              </div>
-              <div class="wz-sum-row">
-                <span class="wz-sum-label">업종</span
-                ><span class="wz-sum-value empty" id="sum-industry"
-                  >미선택</span
-                >
-              </div>
-              <div class="wz-sum-row">
-                <span class="wz-sum-label">설립연도</span
-                ><span class="wz-sum-value empty" id="sum-founded">미입력</span>
-              </div>
-            </div>
-            <div class="wz-sum-section">
-              <div class="wz-sum-header">
-                <span class="wz-sum-badge">2</span> 자금 정보
-              </div>
-              <div class="wz-sum-row">
-                <span class="wz-sum-label">자금 규모</span
-                ><span class="wz-sum-value empty" id="sum-amount">미선택</span>
-              </div>
-              <div
-                id="sum-fundType"
-                class="wz-sum-tags"
-                style="margin-top: 6px"
-              ></div>
-            </div>
-            <div class="wz-sum-section">
-              <div class="wz-sum-header">
-                <span class="wz-sum-badge">3</span> 연락처
-              </div>
-              <div class="wz-sum-row">
-                <span class="wz-sum-label">대표자</span
-                ><span class="wz-sum-value empty" id="sum-name">미입력</span>
-              </div>
-              <div class="wz-sum-row">
-                <span class="wz-sum-label">연락처</span
-                ><span class="wz-sum-value empty" id="sum-phone">미입력</span>
-              </div>
-              <div class="wz-sum-row">
-                <span class="wz-sum-label">이메일</span
-                ><span class="wz-sum-value empty" id="sum-email">미입력</span>
-              </div>
-              <div class="wz-sum-row">
-                <span class="wz-sum-label">통화시간</span
-                ><span class="wz-sum-value empty" id="sum-consultTime"
-                  >미선택</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <!-- 위자드폼은 자금상담 페이지(fund.html)에만 노출 -->
+    <!-- WIZARD_SECTION_REMOVED -->
 
     <!-- ===== FOOTER ===== -->
     <footer class="site-footer">
@@ -3319,31 +2804,6 @@
 
     <!-- ===== JavaScript ===== -->
     <script>
-      // 햄버거 메뉴
-      const hamburger = document.getElementById("hamburgerBtn");
-      const menu = document.getElementById("fullscreenMenu");
-      hamburger.addEventListener("click", () => {
-        hamburger.classList.toggle("open");
-        menu.classList.toggle("open");
-        document.body.style.overflow = menu.classList.contains("open")
-          ? "hidden"
-          : "";
-      });
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && menu.classList.contains("open")) {
-          hamburger.classList.remove("open");
-          menu.classList.remove("open");
-          document.body.style.overflow = "";
-        }
-      });
-      menu.querySelectorAll("a").forEach((a) => {
-        a.addEventListener("click", () => {
-          hamburger.classList.remove("open");
-          menu.classList.remove("open");
-          document.body.style.overflow = "";
-        });
-      });
-
       // 헤더 스크롤
       window.addEventListener("scroll", () => {
         document
@@ -3413,156 +2873,6 @@
         panel.offsetHeight;
         panel.style.animation = "fadeUp 0.5s ease";
       });
-
-      // Wizard Step Navigation
-      (function () {
-        var currentStep = 1,
-          totalSteps = 3;
-        function updateProgress(step) {
-          document.querySelectorAll(".wizard-step").forEach(function (el, i) {
-            el.classList.remove("active", "done");
-            if (i + 1 === step) el.classList.add("active");
-            else if (i + 1 < step) el.classList.add("done");
-          });
-          document
-            .querySelectorAll(".wizard-step-line")
-            .forEach(function (el, i) {
-              el.classList.toggle("done", i + 1 < step);
-            });
-        }
-        function updateMobileSummary(step) {
-          var box = document.getElementById("mobileSummary"),
-            text = document.getElementById("mobileSummaryText");
-          if (!box || !text) return;
-          if (step <= 1) {
-            box.style.display = "none";
-            return;
-          }
-          var form = document.getElementById("consultForm"),
-            parts = [];
-          var company =
-            (form.querySelector('[name="company"]') || {}).value || "";
-          var industry =
-            (form.querySelector('[name="industry"]') || {}).value || "";
-          var founded =
-            (form.querySelector('[name="founded"]') || {}).value || "";
-          var line1 = [];
-          if (company) line1.push("<strong>" + company + "</strong>");
-          if (industry) line1.push(industry);
-          if (founded) line1.push(founded + "년");
-          if (line1.length) parts.push(line1.join(" · "));
-          if (step >= 3) {
-            var amount =
-              (form.querySelector('[name="amount"]') || {}).value || "";
-            var fundTypes = [];
-            form
-              .querySelectorAll('[name="fundType"]:checked')
-              .forEach(function (el) {
-                fundTypes.push(el.value);
-              });
-            var line2 = [];
-            if (amount) line2.push(amount);
-            if (fundTypes.length) line2.push(fundTypes.join(", "));
-            if (line2.length) parts.push(line2.join(" · "));
-          }
-          if (parts.length) {
-            text.innerHTML = parts.join("<br>");
-            box.style.display = "flex";
-          } else {
-            box.style.display = "none";
-          }
-        }
-        function showPanel(step) {
-          document.querySelectorAll(".wizard-panel").forEach(function (el) {
-            el.classList.remove("active");
-            if (parseInt(el.getAttribute("data-step")) === step)
-              el.classList.add("active");
-          });
-          updateProgress(step);
-          updateMobileSummary(step);
-          currentStep = step;
-        }
-        function validateStep(step) {
-          var panel = document.querySelector(
-            '.wizard-panel[data-step="' + step + '"]',
-          );
-          if (!panel) return true;
-          var required = panel.querySelectorAll("[required]");
-          for (var i = 0; i < required.length; i++) {
-            var el = required[i];
-            if (el.type === "checkbox") {
-              if (!el.checked) {
-                el.focus();
-                return false;
-              }
-            } else {
-              if (!el.value.trim()) {
-                el.focus();
-                return false;
-              }
-            }
-          }
-          return true;
-        }
-        window.wizardNext = function () {
-          if (!validateStep(currentStep)) return;
-          if (currentStep < totalSteps) showPanel(currentStep + 1);
-        };
-        window.wizardPrev = function () {
-          if (currentStep > 1) showPanel(currentStep - 1);
-        };
-      })();
-
-      // Summary panel real-time update
-      (function () {
-        var form = document.getElementById("consultForm");
-        if (!form) return;
-        var fields = {
-          company: "sum-company",
-          bizno: "sum-bizno",
-          industry: "sum-industry",
-          founded: "sum-founded",
-          amount: "sum-amount",
-          name: "sum-name",
-          phone: "sum-phone",
-          email: "sum-email",
-          consultTime: "sum-consultTime",
-        };
-        function updateSummary() {
-          Object.entries(fields).forEach(function ([name, id]) {
-            var el = form.querySelector('[name="' + name + '"]');
-            var sumEl = document.getElementById(id);
-            if (!el || !sumEl) return;
-            var val = el.value.trim();
-            if (val) {
-              sumEl.textContent = val;
-              sumEl.classList.remove("empty");
-            } else {
-              sumEl.textContent = el.tagName === "SELECT" ? "미선택" : "미입력";
-              sumEl.classList.add("empty");
-            }
-          });
-          var fundContainer = document.getElementById("sum-fundType");
-          if (fundContainer) {
-            var checked = form.querySelectorAll(
-              'input[name="fundType"]:checked',
-            );
-            if (checked.length > 0) {
-              fundContainer.innerHTML = Array.from(checked)
-                .map(function (c) {
-                  return '<span class="wz-sum-tag">' + c.value + "</span>";
-                })
-                .join("");
-            } else {
-              fundContainer.innerHTML =
-                '<span style="font-size:11px;color:#d1d5db;font-style:italic;">미선택</span>';
-            }
-          }
-        }
-        form.addEventListener("input", updateSummary);
-        form.addEventListener("change", updateSummary);
-        updateSummary();
-      })();
     </script>
 
     <!-- ===== MOBILE BOTTOM NAV ===== -->
@@ -3592,7 +2902,7 @@
         </svg>
         회사소개
       </a>
-      <a href="#consult-form">
+      <a href="fund.html">
         <svg
           viewBox="0 0 24 24"
           fill="none"
