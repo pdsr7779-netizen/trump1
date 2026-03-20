@@ -1,0 +1,25 @@
+import type { Metadata } from 'next'
+import ProcessClient from './ProcessClient'
+import JsonLd from '@/components/JsonLd'
+import { pageMetadata } from '@/lib/seo/metadata'
+import { faqSchema, howToSchema, breadcrumbSchema } from '@/lib/seo/schemas'
+
+export const metadata: Metadata = pageMetadata.process
+
+export default function ProcessPage() {
+  return (
+    <>
+      <JsonLd
+        data={[
+          faqSchema(),
+          howToSchema(),
+          breadcrumbSchema([
+            { name: '홈', url: 'https://trump1.co.kr' },
+            { name: '진행과정', url: 'https://trump1.co.kr/process' },
+          ]),
+        ]}
+      />
+      <ProcessClient />
+    </>
+  )
+}

@@ -1,0 +1,40 @@
+import type { Metadata } from 'next'
+import './globals.css'
+import { baseMetadata } from '@/lib/seo/metadata'
+
+export const metadata: Metadata = {
+  ...baseMetadata,
+  title: '트럼프 파트너스 | 정책자금 경영컨설팅',
+  description:
+    '트럼프 파트너스는 정책자금 전문 경영컨설팅 기업입니다. 체계적인 진단으로 정책자금 심사 통과율을 높여드립니다.',
+  keywords:
+    '정책자금, 경영컨설팅, 자금상담, 창업자금, 운전자금, 시설자금, 트럼프 파트너스',
+  openGraph: {
+    title: '트럼프 파트너스 | 정책자금 경영컨설팅',
+    description: '체계적인 경영 자문, 정책자금 전문 컨설팅',
+    url: 'https://trump1.co.kr',
+    siteName: '트럼프 파트너스',
+    locale: 'ko_KR',
+    type: 'website',
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || '',
+    other: {
+      'naver-site-verification': [process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION || ''],
+    },
+  },
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="ko">
+      <body className="font-sans antialiased">
+        {children}
+      </body>
+    </html>
+  )
+}
