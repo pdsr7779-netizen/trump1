@@ -41,3 +41,5 @@ yarn-error.log*
 
 # GitHub AI instructions
 .github/instructions/codacy.instructions.md
+
+.vercel
