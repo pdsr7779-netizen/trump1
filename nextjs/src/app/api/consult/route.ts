@@ -32,20 +32,21 @@ async function saveToAirtable(data: ConsultData) {
       records: [
         {
           fields: {
-            "\uAE30\uC5C5\uBA85": data.company,
-            "\uC0AC\uC5C5\uC790\uBC88\uD638": data.bizno,
-            "\uB300\uD45C\uC790\uBA85": data.name,
-            "\uC5F0\uB77D\uCC98": data.phone,
-            "\uC774\uBA54\uC77C": data.email,
-            "\uC5C5\uC885": data.industry || "",
-            "\uC124\uB9BD\uC5F0\uB3C4": data.founded || "",
-            "\uD1B5\uD654\uAC00\uB2A5\uC2DC\uAC04": data.consultTime,
-            "\uC790\uAE08\uADDC\uBAA8": data.amount || "",
-            "\uC790\uAE08\uC885\uB958": data.fundType,
-            "\uBB38\uC758\uC0AC\uD56D": data.message || "",
-            "\uC811\uC218\uC77C\uC2DC": new Date().toLocaleString("ko-KR", {
+            company: data.company,
+            bizno: data.bizno,
+            repName: data.name,
+            phone: data.phone,
+            email: data.email,
+            industry: data.industry || "",
+            founded: data.founded || "",
+            consultTime: data.consultTime,
+            amount: data.amount || "",
+            fundType: data.fundType,
+            message: data.message || "",
+            createdAt: new Date().toLocaleString("ko-KR", {
               timeZone: "Asia/Seoul",
             }),
+            status: "new",
           },
         },
       ],
